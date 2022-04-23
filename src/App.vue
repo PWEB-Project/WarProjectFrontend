@@ -1,16 +1,24 @@
 <template>
-  <v-app>
+  <v-app id="app">
+    <AnonymousUserBar/>
     <v-app-bar
       app
-      color="primary"
+      color="grey darken-2"
       dark
     >
       <div class="d-flex align-center">
-        <v-img
+        <!-- <v-text-field
+        value="Stay Strong"
+        disabled>
+        </v-text-field> -->
+        <v-toolbar-title>
+          Stay Strong
+        </v-toolbar-title>
+        <!-- <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          src="https://p7.hiclipart.com/preview/102/563/822/staying-strong-temporary-tattoo-irezumi-stay-strong-tattoo-png-thumbnail.jpg"
           transition="scale-transition"
           width="40"
         />
@@ -22,7 +30,7 @@
           min-width="100"
           src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
           width="100"
-        />
+        /> -->
       </div>
 
       <v-spacer></v-spacer>
@@ -32,25 +40,28 @@
         target="_blank"
         text
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+        <span class="mr-2">Login</span>
+        <v-icon>mdi-login</v-icon>
       </v-btn>
     </v-app-bar>
+    
 
-    <v-main>
+    <!-- <v-main>
       <DisplayView/>
-    </v-main>
+    </v-main> -->
   </v-app>
 </template>
 
 <script>
-import DisplayView from './views/DisplayView';
+import AnonymousUserBar from './views/AnonymousUserBar.vue';
+// import DisplayView from './views/DisplayView';
 
 export default {
   name: 'App',
 
   components: {
-    DisplayView,
+    // DisplayView,
+    AnonymousUserBar
   },
 
   data: () => ({
@@ -58,3 +69,4 @@ export default {
   }),
 };
 </script>
+
