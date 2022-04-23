@@ -51,6 +51,7 @@
     <!-- <v-main>
       <DisplayView/>
     </v-main> -->
+    <router-view />
   </v-app>
 </template>
 
