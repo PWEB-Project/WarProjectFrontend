@@ -41,6 +41,7 @@
           </v-list-item>
           <v-list-item link to="/about">
             <!-- <router-link to="/about"> -->
+
             <v-list-item-icon>
               <v-icon>mdi-send-circle-outline</v-icon>
             </v-list-item-icon>
