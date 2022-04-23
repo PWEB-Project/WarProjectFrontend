@@ -1,9 +1,11 @@
 <template>
   <v-app id="app">
     <AnonymousUserBar/>
+    <!-- <AdminUserBar /> -->
+    <!-- <JournalistUserBar /> -->
     <v-app-bar
       app
-      color="grey darken-2"
+      color="grey darken-4"
       dark
     >
       <div class="d-flex align-center">
@@ -53,7 +55,9 @@
 </template>
 
 <script>
+// import JournalistUserBar from './views/JournalistUserBar.vue'
 import AnonymousUserBar from './views/AnonymousUserBar.vue';
+// import AdminUserBar from './views/AdminUserBar.vue';
 // import DisplayView from './views/DisplayView';
 
 export default {
@@ -62,6 +66,8 @@ export default {
   components: {
     // DisplayView,
     AnonymousUserBar
+    // AdminUserBar
+    // JournalistUserBar
   },
 
   data: () => ({

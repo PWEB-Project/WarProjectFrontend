@@ -27,6 +27,12 @@
           nav
           dense
         >
+          <v-list-item link href="/display">
+            <v-list-item-icon>
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>User Profile</v-list-item-title>
+          </v-list-item>
           <v-list-item link>
             <v-list-item-icon>
               <v-icon>mdi-newspaper</v-icon>
@@ -38,12 +44,6 @@
               <v-icon>mdi-book-open-page-variant</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Articles</v-list-item-title>
-          </v-list-item>
-          <v-list-item link href="/display">
-            <v-list-item-icon>
-              <v-icon>mdi-send-circle-outline</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Subscribe</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>

@@ -27,6 +27,24 @@
           nav
           dense
         >
+          <v-list-item link href="/display">
+            <v-list-item-icon>
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>User Profile</v-list-item-title>
+          </v-list-item>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-warehouse</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Bunkers</v-list-item-title>
+          </v-list-item>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-charity</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Necessity Goods</v-list-item-title>
+          </v-list-item>
           <v-list-item link>
             <v-list-item-icon>
               <v-icon>mdi-newspaper</v-icon>
@@ -39,11 +57,11 @@
             </v-list-item-icon>
             <v-list-item-title>Articles</v-list-item-title>
           </v-list-item>
-          <v-list-item link href="/display">
+          <v-list-item link>
             <v-list-item-icon>
-              <v-icon>mdi-send-circle-outline</v-icon>
+              <v-icon>mdi-star</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Subscribe</v-list-item-title>
+            <v-list-item-title>Reviews</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
