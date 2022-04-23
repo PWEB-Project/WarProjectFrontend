@@ -1,38 +1,23 @@
 <template>
-  <div :class="{'nav-open': $sidebar.showSidebar}">
-    <notifications></notifications>
-    <router-view></router-view>
-  </div>
+  <v-fade-transition mode="out-in">
+    <router-view />
+  </v-fade-transition>
 </template>
 
 <script>
-  export default {}
-</script>
-<style lang="scss">
-  .vue-notifyjs.notifications{
-    .list-move {
-      transition: transform 0.3s, opacity 0.4s;
-    }
-    .list-item {
-      display: inline-block;
-      margin-right: 10px;
+  // Styles
+  import '@/styles/overrides.sass'
 
-    }
-    .list-enter-active {
-      transition: transform 0.2s ease-in, opacity 0.4s ease-in;
-    }
-    .list-leave-active {
-      transition: transform 1s ease-out, opacity 0.4s ease-out;
-    }
-
-    .list-enter {
-      opacity: 0;
-      transform: scale(1.1);
-
-    }
-    .list-leave-to {
-      opacity: 0;
-      transform: scale(1.2, 0.7);
-    }
+  export default {
+    name: 'App',
+    metaInfo: {
+      title: 'App',
+      titleTemplate: '%s | Material Dashboard Free',
+      htmlAttrs: { lang: 'en' },
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      ],
+    },
   }
-</style>
+</script>
