@@ -1,18 +1,12 @@
 import Vue from 'vue'
+import './plugins/axios'
 import App from './App.vue'
-import router from './router'
 import vuetify from './plugins/vuetify'
-import './plugins'
-import store from './store'
-import { sync } from 'vuex-router-sync'
-
-Vue.config.productionTip = false
-
-sync(store, router)
-
+import JsonExcel from "../node_modules/vue-json-excel";
+import VueJsonToCsv from '../node_modules/vue-json-to-csv'
+Vue.component("downloadExcel", JsonExcel);
+Vue.component("vue-json-to-csv", VueJsonToCsv);
 new Vue({
-  router,
   vuetify,
-  store,
-  render: h => h(App),
+  render: h => h(App)
 }).$mount('#app')
