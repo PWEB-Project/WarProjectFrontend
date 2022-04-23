@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <!-- <v-app> -->
       <v-navigation-drawer
         permanent
         expand-on-hover
@@ -39,15 +39,18 @@
             </v-list-item-icon>
             <v-list-item-title>Articles</v-list-item-title>
           </v-list-item>
-          <v-list-item link href="/display">
+          <v-list-item link to="/about">
+            <!-- <router-link to="/about"> -->
             <v-list-item-icon>
               <v-icon>mdi-send-circle-outline</v-icon>
             </v-list-item-icon>
+
             <v-list-item-title>Subscribe</v-list-item-title>
+            <!-- </router-link> -->
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
-  </v-app>
+  <!-- </v-app> -->
 </template>
 
 <script>
