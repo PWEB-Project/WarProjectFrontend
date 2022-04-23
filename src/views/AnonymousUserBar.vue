@@ -39,7 +39,7 @@
             </v-list-item-icon>
             <v-list-item-title>Articles</v-list-item-title>
           </v-list-item>
-          <v-list-item link href="/display">
+          <v-list-item link href="/about">
             <v-list-item-icon>
               <v-icon>mdi-send-circle-outline</v-icon>
             </v-list-item-icon>
