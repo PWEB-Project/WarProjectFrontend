@@ -3,7 +3,35 @@
       <v-navigation-drawer
         permanent
         expand-on-hover
+        @update:mini-variant="make_visible"
       >
+        <v-list>
+          <v-list-item class="px-2">
+             <v-select
+              v-model="value"
+              :items="items"
+              attach
+              chips
+              label="Chips"
+              multiple
+              clearable
+              deletable-chips
+              :hide-selected="visible"
+            >
+            <template v-slot:selection="{ item, index }">
+              <v-chip v-if="index === 0">
+                <span>{{ item }}</span>
+              </v-chip>
+              <span
+                v-if="index === 1"
+                class="grey--text text-caption"
+              >
+              </span>
+            </template>
+            </v-select>
+
+          </v-list-item>
+        </v-list>
         <!-- <v-list> -->
           <!-- <v-list-item class="px-2"> -->
             <!-- <v-list-item-avatar> -->
@@ -50,14 +78,28 @@
             <!-- </router-link> -->
           </v-list-item>
         </v-list>
+        <v-footer class="justify-center pl-0" inset app>
+         
+        </v-footer>
       </v-navigation-drawer>
   <!-- </v-app> -->
 </template>
 
 <script>
   export default {
-    //
+     data: () => ({
+      items: ['foo', 'bar', 'fizz', 'buzz'],
+      value: ['foo', 'bar', 'fizz', 'buzz'],
+      visible: false
+    }),
+    method: {
+      make_visible(){
+        console.log(this.visible)
+        this.visible = true
+      }
+    }
   }
+  
 </script>
 
 <style>
@@ -65,7 +107,7 @@
     height: 100%; /* 100% Full-height */
     width: 500; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
-    z-index: 0; /* Stay on top */
+    z-index: 500; /* Stay on top */
     top: 0;
     left: 0;
     background-color: #bd711b;/*#bd711b;*/

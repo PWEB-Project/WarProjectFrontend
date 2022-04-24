@@ -3,36 +3,15 @@
     <AnonymousUserBar/>
     <!-- <AdminUserBar /> -->
     <!-- <JournalistUserBar /> -->
+    <v-card class="overflow-hidden rounded-0" style="z-index: 600">
     <v-app-bar
-      app
       color="grey darken-4"
       dark
     >
       <div class="d-flex align-center">
-        <!-- <v-text-field
-        value="Stay Strong"
-        disabled>
-        </v-text-field> -->
         <v-toolbar-title>
           Stay Strong
         </v-toolbar-title>
-        <!-- <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://p7.hiclipart.com/preview/102/563/822/staying-strong-temporary-tattoo-irezumi-stay-strong-tattoo-png-thumbnail.jpg"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        /> -->
       </div>
 
       <v-spacer></v-spacer>
@@ -46,12 +25,11 @@
         <v-icon>mdi-login</v-icon>
       </v-btn>
     </v-app-bar>
-    
+    </v-card>
 
-    <!-- <v-main>
-      <DisplayView/>
-    </v-main> -->
+    <v-container>
     <router-view />
+    </v-container>
   </v-app>
 </template>
 
@@ -76,4 +54,16 @@ export default {
   }),
 };
 </script>
-
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+}
+</style>
