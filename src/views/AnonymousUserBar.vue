@@ -3,7 +3,7 @@
       <v-navigation-drawer
         permanent
         expand-on-hover
-        @update:mini-variant={make_visible()}
+        @update:mini-variant="make_visible"
       >
         <v-list>
           <v-list-item class="px-2">
