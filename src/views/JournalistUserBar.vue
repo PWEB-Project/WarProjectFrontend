@@ -61,7 +61,7 @@
     height: 100%; /* 100% Full-height */
     width: 500; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
-    z-index: 0; /* Stay on top */
+    z-index: 500; /* Stay on top */
     top: 0;
     left: 0;
     background-color: #bd711b;/*#bd711b;*/
