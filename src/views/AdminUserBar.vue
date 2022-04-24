@@ -27,41 +27,47 @@
           nav
           dense
         >
-          <v-list-item link href="/display">
+          <v-list-item link to="/user-profile">
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
             <v-list-item-title>User Profile</v-list-item-title>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link to="/bunker">
             <v-list-item-icon>
               <v-icon>mdi-warehouse</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Bunkers</v-list-item-title>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link to="/necessity-goods">
             <v-list-item-icon>
               <v-icon>mdi-charity</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Necessity Goods</v-list-item-title>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link to="/news">
             <v-list-item-icon>
               <v-icon>mdi-newspaper</v-icon>
             </v-list-item-icon>
             <v-list-item-title>News</v-list-item-title>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link to="/article">
             <v-list-item-icon>
               <v-icon>mdi-book-open-page-variant</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Articles</v-list-item-title>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link to="/review">
             <v-list-item-icon>
               <v-icon>mdi-star</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Reviews</v-list-item-title>
+          </v-list-item>
+          <v-list-item link to="/logout" style="vertical-aligne: bottom">
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Logout</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>

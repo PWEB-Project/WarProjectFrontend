@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import UserProfileView from '../views/UserProfileView.vue'
-import SubscribePage from '../views/SubscribePage.vue'
+import SubscribeAddView from '../views/SubscribeAddView.vue'
 import ReviewView from '../views/ReviewView.vue'
 import NewsView from '../views/NewsView.vue'
 import NecessityGoodsView from '../views/NecessityGoodsView.vue'
@@ -25,7 +25,7 @@ const routes = [
   {
     path: '/subscribe',
     name: 'subscribe',
-    component: SubscribePage
+    component: SubscribeAddView
   },
   {
     path: '/review',

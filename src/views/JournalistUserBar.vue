@@ -27,23 +27,29 @@
           nav
           dense
         >
-          <v-list-item link href="/display">
+          <v-list-item link to="/user-profile">
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
             <v-list-item-title>User Profile</v-list-item-title>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link to="/news">
             <v-list-item-icon>
               <v-icon>mdi-newspaper</v-icon>
             </v-list-item-icon>
             <v-list-item-title>News</v-list-item-title>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link to="/article">
             <v-list-item-icon>
               <v-icon>mdi-book-open-page-variant</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Articles</v-list-item-title>
+          </v-list-item>
+          <v-list-item link to="/logout">
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Logout</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>

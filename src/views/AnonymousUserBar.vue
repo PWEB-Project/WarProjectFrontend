@@ -27,19 +27,19 @@
           nav
           dense
         >
-          <v-list-item link>
+          <v-list-item link to="/news">
             <v-list-item-icon>
               <v-icon>mdi-newspaper</v-icon>
             </v-list-item-icon>
             <v-list-item-title>News</v-list-item-title>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link to="/article">
             <v-list-item-icon>
               <v-icon>mdi-book-open-page-variant</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Articles</v-list-item-title>
           </v-list-item>
-          <v-list-item link to="/about">
+          <v-list-item link to="/subscribe">
             <!-- <router-link to="/about"> -->
 
             <v-list-item-icon>
