@@ -8,7 +8,7 @@
     </v-card>
     <v-card>
       <v-container>
-        <h1>Add New Bunker</h1>
+        <h1>Add Necessity Goods</h1>
         <form @submit.prevent="submit">
           <v-select
             v-model="country"
@@ -48,6 +48,15 @@
             @input="$v.address.$touch()"
             @blur="$v.address.$touch()"
           ></v-text-field>
+          <v-select
+            v-model="goodsType"
+            :items="goodsTypes"
+            :error-messages="goodsTypeErrors"
+            label="Goods Type"
+            required
+            @change="$v.goodsType.$touch()"
+            @blur="$v.goodsType.$touch()"
+          ></v-select>
           <v-text-field
             v-model="maxCapacity"
             :error-messages="maxCapacityErrors"
@@ -124,6 +133,7 @@
       maxCapacity : { required },
       currentCapacity : { required },
       lastUpdate : { required },
+      goodsType: { required },
       checkbox: {
         checked (val) {
           return val
@@ -136,6 +146,7 @@
       country: null,
       county: null,
       city: null,
+      goodsType: null,
       maxCapacity: 100,
       currentCapacity: 0,
       menuLastUpdate: false,
@@ -158,6 +169,12 @@
         'Item 3',
         'Item 4',
       ],
+      goodsTypes: [
+        'Item 1',
+        'Item 2',
+        'Item 3',
+        'Item 4',
+      ],
       breadcrumbs: [
         {
           text: 'Dashboard',
@@ -165,14 +182,14 @@
           href: '/about',
         },
         {
-          text: 'Bunker',
+          text: 'Necessity Goods',
           disabled: false,
-          href: '/bunker',
+          href: '/necessity-goods',
         },
         {
-          text: 'Add Bunker',
+          text: 'Add Necessity Goods',
           disabled: false,
-          href: '/add-bunker',
+          href: '/add-necessity-goods',
         },
       ],
       checkbox: false,
@@ -227,6 +244,12 @@
         !this.$v.lastUpdate.required && errors.push('Last Update is required')
         return errors
       },
+      goodsTypeErrors () {
+        const errors = []
+        if (!this.$v.goodsType.$dirty) return errors
+        !this.$v.goodsType.required && errors.push('Goods Type is required')
+        return errors
+      },
     },
 
     methods: {
@@ -244,7 +267,7 @@
         this.checkbox = false
         this.menuLastUpdate = false
         this.lastUpdate = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
-    
+        this.goodsTypes = null
       },
     },
   }

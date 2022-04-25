@@ -2,7 +2,7 @@
   <div class="bunker">
     <v-card class="d-flex flex-row-reverse" flat color="transparent">
       <v-breadcrumbs
-        :items="items"
+        :items="breadcrumbs"
         divider=">"
       ></v-breadcrumbs>
     </v-card>
@@ -23,3 +23,22 @@
     </v-card>
   </div>
 </template>
+
+<script>
+  export default {
+    data: () => ({
+      breadcrumbs: [
+        {
+          text: 'Dashboard',
+          disabled: false,
+          href: '/about',
+        },
+        {
+          text: 'Bunker',
+          disabled: false,
+          href: '/bunker',
+        },
+      ],
+    }),
+  }
+</script>
