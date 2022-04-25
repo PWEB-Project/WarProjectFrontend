@@ -11,6 +11,7 @@ import BunkerAddView from '../views/BunkerAddView'
 import NecessityGoodsAddView from '../views/NecessityGoodsAddView'
 import NewsAddView from '../views/NewsAddView'
 import ArticleAddView from '../views/ArticleAddView'
+import ReviewAddView from '../views/ReviewAddView'
 // import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
@@ -75,6 +76,11 @@ const routes = [
     path: '/add-article',
     name: 'add-article',
     component: ArticleAddView
+  },
+  {
+    path: '/add-review',
+    name: 'add-review',
+    component: ReviewAddView
   },
   {
     path: '/about',
