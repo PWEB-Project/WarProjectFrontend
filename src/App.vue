@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
-    <AnonymousUserBar/>
-    <!-- <AdminUserBar /> -->
+    <!-- <AnonymousUserBar/> -->
+    <AdminUserBar />
     <!-- <JournalistUserBar /> -->
     <v-card class="overflow-hidden rounded-0" style="z-index: 600">
     <v-app-bar
@@ -35,8 +35,8 @@
 
 <script>
 // import JournalistUserBar from './views/JournalistUserBar.vue'
-import AnonymousUserBar from './views/AnonymousUserBar.vue';
-// import AdminUserBar from './views/AdminUserBar.vue';
+// import AnonymousUserBar from './views/AnonymousUserBar.vue';
+import AdminUserBar from './views/AdminUserBar.vue';
 // import DisplayView from './views/DisplayView';
 
 export default {
@@ -44,8 +44,8 @@ export default {
 
   components: {
     // DisplayView,
-    AnonymousUserBar
-    // AdminUserBar
+    // AnonymousUserBar
+    AdminUserBar
     // JournalistUserBar
   },
 

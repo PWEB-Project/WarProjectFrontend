@@ -1,14 +1,14 @@
 <template>
-  <form>
-    <v-text-field
-      v-model="name"
-      :error-messages="nameErrors"
-      :counter="10"
-      label="Name"
-      required
-      @input="$v.name.$touch()"
-      @blur="$v.name.$touch()"
-    ></v-text-field>
+<div>
+    <v-card class="d-flex flex-row-reverse" flat color="transparent">
+      <v-breadcrumbs
+        :items="breadcrumbs"
+        divider=">"
+      ></v-breadcrumbs>
+    </v-card>
+    <v-card>
+        <v-container>
+  <form @submit.prevent="submit">
     <v-text-field
       v-model="email"
       :error-messages="emailErrors"
@@ -18,18 +18,39 @@
       @blur="$v.email.$touch()"
     ></v-text-field>
     <v-select
-      v-model="select"
-      :items="items"
-      :error-messages="selectErrors"
-      label="Item"
+      v-model="country"
+      :items="countries"
+      :error-messages="countryErrors"
+      label="Country"
       required
-      @change="$v.select.$touch()"
-      @blur="$v.select.$touch()"
+      @change="$v.country.$touch()"
+      @blur="$v.country.$touch()"
+      multiple
+    ></v-select>
+    <v-select
+      v-model="county"
+      :items="counties"
+      :error-messages="countyErrors"
+      label="County"
+      required
+      @change="$v.county.$touch()"
+      @blur="$v.county.$touch()"
+      multiple
+    ></v-select>
+    <v-select
+      v-model="city"
+      :items="cities"
+      :error-messages="cityErrors"
+      label="City"
+      required
+      @change="$v.city.$touch()"
+      @blur="$v.city.$touch()"
+      multiple
     ></v-select>
     <v-checkbox
       v-model="checkbox"
       :error-messages="checkboxErrors"
-      label="Do you agree?"
+      label="Do you agree to receive news on?"
       required
       @change="$v.checkbox.$touch()"
       @blur="$v.checkbox.$touch()"
@@ -37,7 +58,9 @@
 
     <v-btn
       class="mr-4"
+      type="submit"
       @click="submit"
+      :disabled="invalid"
     >
       submit
     </v-btn>
@@ -45,19 +68,23 @@
       clear
     </v-btn>
   </form>
+  </v-container>
+  </v-card>
+  </div>
 </template>
 
 <script>
   import { validationMixin } from 'vuelidate'
-  import { required, maxLength, email } from 'vuelidate/lib/validators'
+  import { required, email } from 'vuelidate/lib/validators'
 
   export default {
     mixins: [validationMixin],
 
     validations: {
-      name: { required, maxLength: maxLength(10) },
       email: { required, email },
-      select: { required },
+      country: { required },
+      county: { required },
+      city: { required },
       checkbox: {
         checked (val) {
           return val
@@ -66,14 +93,39 @@
     },
 
     data: () => ({
-      name: '',
       email: '',
-      select: null,
-      items: [
+      country: null,
+      county: null,
+      city: null,
+      countries: [
         'Item 1',
         'Item 2',
         'Item 3',
         'Item 4',
+      ],
+      counties: [
+        'Item 1',
+        'Item 2',
+        'Item 3',
+        'Item 4',
+      ],
+      cities: [
+        'Item 1',
+        'Item 2',
+        'Item 3',
+        'Item 4',
+      ],
+      breadcrumbs: [
+        {
+          text: 'Dashboard',
+          disabled: false,
+          href: '/about',
+        },
+        {
+          text: 'Subscribe',
+          disabled: false,
+          href: '/subscribe',
+        },
       ],
       checkbox: false,
     }),
@@ -85,17 +137,22 @@
         !this.$v.checkbox.checked && errors.push('You must agree to continue!')
         return errors
       },
-      selectErrors () {
+      countryErrors () {
         const errors = []
-        if (!this.$v.select.$dirty) return errors
-        !this.$v.select.required && errors.push('Item is required')
+        if (!this.$v.country.$dirty) return errors
+        !this.$v.country.required && errors.push('Country is required')
         return errors
       },
-      nameErrors () {
+      countyErrors () {
         const errors = []
-        if (!this.$v.name.$dirty) return errors
-        !this.$v.name.maxLength && errors.push('Name must be at most 10 characters long')
-        !this.$v.name.required && errors.push('Name is required.')
+        if (!this.$v.county.$dirty) return errors
+        !this.$v.county.required && errors.push('County is required')
+        return errors
+      },
+      cityErrors () {
+        const errors = []
+        if (!this.$v.city.$dirty) return errors
+        !this.$v.city.required && errors.push('City is required')
         return errors
       },
       emailErrors () {
@@ -113,9 +170,10 @@
       },
       clear () {
         this.$v.$reset()
-        this.name = ''
         this.email = ''
-        this.select = null
+        this.country = null
+        this.county = null
+        this.city = null
         this.checkbox = false
       },
     },
