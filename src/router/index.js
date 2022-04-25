@@ -9,6 +9,8 @@ import BunkerView from '../views/BunkerView.vue'
 import ArticleView from '../views/ArticleView.vue'
 import BunkerAddView from '../views/BunkerAddView'
 import NecessityGoodsAddView from '../views/NecessityGoodsAddView'
+import NewsAddView from '../views/NewsAddView'
+import ArticleAddView from '../views/ArticleAddView'
 // import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
@@ -63,6 +65,16 @@ const routes = [
     path: '/add-necessity-goods',
     name: 'add-necessity-goods',
     component: NecessityGoodsAddView
+  },
+  {
+    path: '/add-news',
+    name: 'add-news',
+    component: NewsAddView
+  },
+  {
+    path: '/add-article',
+    name: 'add-article',
+    component: ArticleAddView
   },
   {
     path: '/about',
