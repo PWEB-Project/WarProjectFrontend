@@ -119,11 +119,6 @@
       county: { required },
       city: { required }, 
       publicationDate : { required },
-      checkbox: {
-        checked (val) {
-          return val
-        },
-      },
     },
 
     data: () => ({
@@ -221,7 +216,6 @@
         this.country = null
         this.county = null
         this.city = null  
-        this.checkbox = false
         this.menuPublicationDate = false
         this.publicationDate = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
         this.body = ''

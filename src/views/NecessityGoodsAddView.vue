@@ -134,11 +134,6 @@
       currentCapacity : { required },
       lastUpdate : { required },
       goodsType: { required },
-      checkbox: {
-        checked (val) {
-          return val
-        },
-      },
     },
 
     data: () => ({
@@ -192,16 +187,9 @@
           href: '/add-necessity-goods',
         },
       ],
-      checkbox: false,
     }),
 
     computed: {
-      checkboxErrors () {
-        const errors = []
-        if (!this.$v.checkbox.$dirty) return errors
-        !this.$v.checkbox.checked && errors.push('You must agree to continue!')
-        return errors
-      },
       countryErrors () {
         const errors = []
         if (!this.$v.country.$dirty) return errors
@@ -264,7 +252,6 @@
         this.city = null
         this.maxCapacity = 100
         this.currentCapacity = 0
-        this.checkbox = false
         this.menuLastUpdate = false
         this.lastUpdate = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
         this.goodsTypes = null
