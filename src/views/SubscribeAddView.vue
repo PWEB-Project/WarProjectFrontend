@@ -1,4 +1,7 @@
 <template>
+<v-card>
+        <v-container>
+<div>
   <form>
     <v-text-field
       v-model="name"
@@ -45,6 +48,10 @@
       clear
     </v-btn>
   </form>
+  </div>
+        </v-container>
+</v-card>
+  
 </template>
 
 <script>
