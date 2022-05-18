@@ -1,6 +1,7 @@
 <template>
   <v-app id="app">
-    <!-- <AdminUserBar /> -->
+    <!-- <AnonymousUserBar/> -->
+    <AdminUserBar />
     <!-- <JournalistUserBar /> -->
     <v-card class="rounded-0 d-flex flex-column">
       <v-app-bar
@@ -92,8 +93,8 @@
 
 <script>
 // import JournalistUserBar from './views/JournalistUserBar.vue'
-import AnonymousUserBar from "./views/AnonymousUserBar.vue";
-// import AdminUserBar from './views/AdminUserBar.vue';
+// import AnonymousUserBar from './views/AnonymousUserBar.vue';
+import AdminUserBar from './views/AdminUserBar.vue';
 // import DisplayView from './views/DisplayView';
 // import api from ""
 export default {
@@ -101,8 +102,8 @@ export default {
 
   components: {
     // DisplayView,
-    AnonymousUserBar,
-    // AdminUserBar
+    // AnonymousUserBar
+    AdminUserBar
     // JournalistUserBar
   },
 
