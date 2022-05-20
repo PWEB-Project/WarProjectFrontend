@@ -72,10 +72,10 @@ export default {
   getOrders() {
     return AXIOS.get("/order/getAll");
   },
-  // getPosts(date1, date2) {
-  //   return AXIOS.post("/posts", {"startDate": new Date(date1).getTime(), "endDate": new Date(date2).getTime()});
-  // },
-  getAllReviewType() {
-    return AXIOS.get("/review-type/get-all-review-types");
+  getPosts(date1, date2) {
+    return AXIOS.post("/posts", {"startDate": new Date(date1).getTime(), "endDate": new Date(date2).getTime()});
+  },
+  getCountries(){
+    return AXIOS.post("/country/getCountries");
   }
 };

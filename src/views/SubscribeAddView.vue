@@ -1,14 +1,17 @@
 <template>
-<div>
-    <v-card class="d-flex flex-row-reverse" flat color="transparent">
-      <v-breadcrumbs
-        :items="breadcrumbs"
-        divider=">"
-      ></v-breadcrumbs>
-    </v-card>
-    <v-card>
+<v-card>
         <v-container>
-  <form @submit.prevent="submit">
+<div>
+  <form>
+    <v-text-field
+      v-model="name"
+      :error-messages="nameErrors"
+      :counter="10"
+      label="Name"
+      required
+      @input="$v.name.$touch()"
+      @blur="$v.name.$touch()"
+    ></v-text-field>
     <v-text-field
       v-model="email"
       :error-messages="emailErrors"
@@ -68,9 +71,10 @@
       clear
     </v-btn>
   </form>
-  </v-container>
-  </v-card>
   </div>
+        </v-container>
+</v-card>
+  
 </template>
 
 <script>
