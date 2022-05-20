@@ -2,11 +2,11 @@ import axios from "axios";
 
 
 const AXIOS = axios.create({
-  headers: 'Access-Control-Allow-Origin:*',
-  baseURL: 'http://localhost:8098/api',
-  timeout: 30000,
+  baseURL: `http://localhost:8098/api`,
+  timeout: 30000.
   
 });
+
 
 // AXIOS.interceptors.response.use(
 //   function(response) {
@@ -78,5 +78,14 @@ export default {
   },
   getCountries(){
     return AXIOS.get("/country/getCountries");
+  },
+  getCounties(iso2){
+    return AXIOS.get("/county/getCounties/" + iso2);
+  },
+  getCity(countryIso, countyIso){
+    return AXIOS.get("/city/getCities/" + countryIso + "/" + countyIso);
+  },
+  getBunkers(cityId){
+    return AXIOS.get("/bunker/admin/get-bunkers-by-city-id/" + cityId);
   }
 };
