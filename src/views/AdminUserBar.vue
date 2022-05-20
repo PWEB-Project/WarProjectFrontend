@@ -58,7 +58,7 @@
           <v-list-item-title>Reviews</v-list-item-title>
         </v-list-item>
         <v-dialog v-model="dialog" persistent max-width="600px">
-          <template v-slot:activator="{ on, attrs }" >
+          <template v-slot:activator="{ on, attrs }">
             <v-list-item v-on="on" v-bind="attrs" @click="initialize">
               <v-list-item-icon>
                 <v-icon>mdi-access-point</v-icon>
@@ -87,7 +87,8 @@
               </v-list>
               <v-list>
                 <v-container fluid>
-                  <v-select v-model="valueCity" :items="cities" label="Select City" dense item-text="name" item-value="id">
+                  <v-select v-model="valueCity" :items="cities" label="Select City" dense item-text="name"
+                    item-value="id">
                   </v-select>
                 </v-container>
               </v-list>
@@ -103,7 +104,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-list-item link to="/logout" style="vertical-aligne: bottom">
+        <v-list-item style="vertical-aligne: bottom" @click="logout">
           <v-list-item-icon>
             <v-icon>mdi-logout</v-icon>
           </v-list-item-icon>
@@ -116,6 +117,7 @@
 
 <script>
 import api from "../components/backend_api";
+import firebase from "firebase/compat/app";
 
 export default {
   data: () => ({
@@ -137,6 +139,18 @@ export default {
   //   this.initialize();
   // },
   methods: {
+    logout() {
+      firebase.auth()
+        .signOut()
+        .then(() => {
+          alert('Successfully logged out');
+          this.$router.push('/');
+        })
+        .catch(error => {
+          alert(error.message);
+          this.$router.push('/');
+        });
+    },
     // reserve(name) {
     //   this.loading = true;
     //   console.log(name);
