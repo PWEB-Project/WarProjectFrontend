@@ -58,8 +58,8 @@
           <v-list-item-title>Reviews</v-list-item-title>
         </v-list-item>
         <v-dialog v-model="dialog" persistent max-width="600px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-list-item v-on="on" v-bind="attrs">
+          <template v-slot:activator="{ on, attrs }" >
+            <v-list-item v-on="on" v-bind="attrs" @click="initialize">
               <v-list-item-icon>
                 <v-icon>mdi-access-point</v-icon>
               </v-list-item-icon>
@@ -73,53 +73,31 @@
             <v-card-text style="height: 300px;">
               <v-list>
                 <v-container fluid>
-                  <v-select v-model="value" :items="countries" label="Select Country" dense>
-                    <template v-slot:selection="{ item, index }">
-                      <v-chip v-if="index === 0">
-                        <span>{{ item.name }}</span>
-                      </v-chip>
-                      <span v-if="index === 1" class="grey--text text-caption">
-                        (+{{ value.length - 1 }} others)
-                      </span>
-                    </template>
+                  <v-select v-model="valueCountry" :items="countries" label="Select Country" dense item-text="name"
+                    item-value="iso2" @input="selectCountry">
                   </v-select>
                 </v-container>
               </v-list>
               <v-list>
                 <v-container fluid>
-                  <v-select v-model="value" :items="items" label="Select County" dense>
-                    <template v-slot:selection="{ item, index }">
-                      <v-chip v-if="index === 0">
-                        <span>{{ item }}</span>
-                      </v-chip>
-                      <span v-if="index === 1" class="grey--text text-caption">
-                        (+{{ value.length - 1 }} others)
-                      </span>
-                    </template>
+                  <v-select v-model="valueCounty" :items="counties" label="Select County" dense item-text="name"
+                    item-value="iso2" @input="selectCounty">
                   </v-select>
                 </v-container>
               </v-list>
               <v-list>
                 <v-container fluid>
-                  <v-select v-model="value" :items="items" label="Select City" dense>
-                    <template v-slot:selection="{ item, index }">
-                      <v-chip v-if="index === 0">
-                        <span>{{ item }}</span>
-                      </v-chip>
-                      <span v-if="index === 1" class="grey--text text-caption">
-                        (+{{ value.length - 1 }} others)
-                      </span>
-                    </template>
+                  <v-select v-model="valueCity" :items="cities" label="Select City" dense item-text="name" item-value="id">
                   </v-select>
                 </v-container>
               </v-list>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-              <v-btn color="blue darken-1" text @click="dialog = false">
+              <v-btn color="blue darken-1" text @click="close">
                 Close
               </v-btn>
-              <v-btn color="blue darken-1" text @click="dialog = false">
+              <v-btn color="blue darken-1" text @click="save">
                 Save
               </v-btn>
             </v-card-actions>
@@ -148,14 +126,17 @@ export default {
       'mdi-instagram',
     ],
     dialog: false,
-    items: ["foo", "bar", "fizz", "buzz"],
-    value: ["foo", "bar", "fizz", "buzz"],
-    countries: []
+    countries: [],
+    valueCountry: "",
+    counties: [],
+    valueCounty: "",
+    cities: [],
+    valueCity: ""
   }),
-  created() {
-    this.initialize();
-  },
-   methods: {
+  // created() {
+  //   this.initialize();
+  // },
+  methods: {
     // reserve(name) {
     //   this.loading = true;
     //   console.log(name);
@@ -163,6 +144,46 @@ export default {
     //   const str1 = "/menuPageUser/";
     //   this.$router.push(str1.concat(name));
     // },
+    close() {
+      this.dialog = false;
+    },
+    save() {
+      // var new_name =
+      //   this.editedItem.first_name + " " + this.editedItem.last_name;
+      // if (this.editedIndex > -1) {
+      //   Object.assign(this.items[this.editedIndex], {
+      //     ...this.editedItem,
+      //     ...{ name: new_name }
+      //   });
+      // } else {
+      //   this.items.push({ ...this.editedItem, ...{ name: new_name } });
+      // }
+      this.$store.dispatch('add_city', this.valueCity);
+      console.log(localStorage.getItem("city"));
+      this.close();
+    },
+    selectCountry() {
+      api
+        .getCounties(this.valueCountry)
+        .then(response => {
+          console.log(response.data);
+          this.counties = response.data;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
+    },
+    selectCounty() {
+      api
+        .getCity(this.valueCountry, this.valueCounty)
+        .then(response => {
+          console.log(response.data);
+          this.cities = response.data;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
+    },
     initialize() {
       api
         .getCountries()
@@ -173,6 +194,7 @@ export default {
         .catch(error => {
           this.errors.push(error);
         });
+
     }
   }
 }

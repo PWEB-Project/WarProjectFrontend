@@ -29,4 +29,7 @@ npm install vuelidate --save
 
 npm install --save vue-search-select
 
+vue add vuex
+
+npm install firebase
 
