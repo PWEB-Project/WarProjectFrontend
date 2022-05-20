@@ -1,28 +1,26 @@
-// Vue
 import Vue from 'vue'
 import Vuex from 'vuex'
-import pathify from '@/plugins/vuex-pathify'
-
-// Modules
-import * as modules from './modules'
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
-  modules,
-  plugins: [
-    pathify.plugin,
-  ],
+export default new Vuex.Store({
+  state: {
+    city: null
+  },
+  getters: {
+  },
+  mutations: {
+    update_city(state, payload){
+      localStorage.setItem("city", payload);
+      state.city = payload;
+    }
+  },
+  actions: {
+    add_city({commit}, city){
+      this.state.city = city;
+      commit("update_city", city);
+    }
+  },
+  modules: {
+  }
 })
-
-store.subscribe(mutation => {
-  if (!mutation.type.startsWith('user/')) return
-
-  store.dispatch('user/update', mutation)
-})
-
-store.dispatch('app/init')
-
-export default store
-
-export const ROOT_DISPATCH = Object.freeze({ root: true })
