@@ -3,7 +3,7 @@
     <!-- <AnonymousUserBar/> -->
     <AdminUserBar />
     <!-- <JournalistUserBar /> -->
-    <v-card class="rounded-0 d-flex flex-column">
+    <!-- <v-card class="rounded-0 d-flex flex-column">
       <v-app-bar
         color="grey darken-4"
         dark
@@ -12,26 +12,11 @@
         elevate-on-scroll
         prominent
       >
-        <!-- <div class="d-flex align-center"> -->
         <v-app-bar-title>
           <div>Stay Strong</div>
         </v-app-bar-title>
-        <!-- </div> -->
 
         <v-spacer></v-spacer>
-        <!-- <v-list 
-       >
-          <v-list-item >
-             <v-combobox
-              v-model="select"
-              :items="items"
-              label="Country"
-              outlined
-              dense
-            >
-            </v-combobox>
-          </v-list-item>
-        </v-list> -->
         <v-list>
           <v-container fluid>
             <v-select v-model="value" :items="items" label="Select Item" dense>
@@ -83,7 +68,7 @@
           <v-icon>mdi-login</v-icon>
         </v-btn>
       </v-app-bar>
-    </v-card>
+    </v-card> -->
     <AnonymousUserBar />
     <v-container>
       <router-view />
