@@ -13,6 +13,8 @@
           <v-select
             v-model="reviewType"
             :items="reviewTypes"
+            item-text="reviewTypeName"
+            item-value="id"
             :error-messages="reviewTypeErrors"
             label="Review Type"
             required
@@ -72,6 +74,7 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
+  import api from "../components/backend_api"
 
   export default {
     mixins: [validationMixin],
@@ -133,6 +136,10 @@
       },
     },
 
+    created() {
+    this.getAllReviewType();
+  },
+
     methods: {
       submit () {
         this.$v.$touch()
@@ -144,6 +151,17 @@
         this.publicationDate = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
         this.body = ''
       },
+      getAllReviewType() {
+          api
+            .getAllReviewType()
+            .then(response => {
+                console.log(response.data);
+                this.reviewTypes = response.data;
+            })
+            .catch(error => {
+                this.errors.push(error);
+            });
+      }
     },
   }
 </script>
