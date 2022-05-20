@@ -12,6 +12,8 @@ import NecessityGoodsAddView from '../views/NecessityGoodsAddView'
 import NewsAddView from '../views/NewsAddView'
 import ArticleAddView from '../views/ArticleAddView'
 import ReviewAddView from '../views/ReviewAddView'
+import LoginView from '../views/LoginView'
+import firebase from 'firebase/compat/app'
 // import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
@@ -22,6 +24,11 @@ const routes = [
   //   name: 'home',
   //   component: HomeView
   // },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  },
   {
     path: '/user-profile',
     name: 'user-profile',
@@ -97,5 +104,23 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  console.log("before each")
+  // if (to.matched.some(record => record.meta.authRequired)) {
+    if (to.path !== "/login")
+      if (firebase.auth().currentUser) {
+          next();
+      } else {
+          alert('You must be logged in to see this page');
+          next({
+              path: '/login',
+          });
+      }
+      next();
+  // } else {
+  //     next();
+  // }
+});
 
 export default router
