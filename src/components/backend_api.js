@@ -2,7 +2,8 @@ import axios from "axios";
 
 
 const AXIOS = axios.create({
-  baseURL: `http://localhost:8098/api`,
+  headers: 'Access-Control-Allow-Origin:*',
+  baseURL: 'http://localhost:8098/api',
   timeout: 30000,
   
 });
@@ -76,6 +77,6 @@ export default {
     return AXIOS.post("/posts", {"startDate": new Date(date1).getTime(), "endDate": new Date(date2).getTime()});
   },
   getCountries(){
-    return AXIOS.post("/country/getCountries");
+    return AXIOS.get("/country/getCountries");
   }
 };
