@@ -87,7 +87,7 @@ export default {
 
   components: {
     // DisplayView,
-    // AnonymousUserBar
+    // AnonymousUserBar,
     AdminUserBar
     // JournalistUserBar
   },

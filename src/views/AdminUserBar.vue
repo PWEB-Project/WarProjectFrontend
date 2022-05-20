@@ -73,10 +73,10 @@
             <v-card-text style="height: 300px;">
               <v-list>
                 <v-container fluid>
-                  <v-select v-model="value" :items="items" label="Select Country" dense>
+                  <v-select v-model="value" :items="countries" label="Select Country" dense>
                     <template v-slot:selection="{ item, index }">
                       <v-chip v-if="index === 0">
-                        <span>{{ item }}</span>
+                        <span>{{ item.name }}</span>
                       </v-chip>
                       <span v-if="index === 1" class="grey--text text-caption">
                         (+{{ value.length - 1 }} others)
@@ -137,6 +137,8 @@
 </template>
 
 <script>
+import api from "../components/backend_api";
+
 export default {
   data: () => ({
     icons: [
@@ -148,7 +150,31 @@ export default {
     dialog: false,
     items: ["foo", "bar", "fizz", "buzz"],
     value: ["foo", "bar", "fizz", "buzz"],
+    countries: []
   }),
+  created() {
+    this.initialize();
+  },
+   methods: {
+    // reserve(name) {
+    //   this.loading = true;
+    //   console.log(name);
+    //   setTimeout(() => (this.loading = false), 2000);
+    //   const str1 = "/menuPageUser/";
+    //   this.$router.push(str1.concat(name));
+    // },
+    initialize() {
+      api
+        .getCountries()
+        .then(response => {
+          console.log(response.data);
+          this.countries = response.data;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
+    }
+  }
 }
 </script>
 

@@ -27,3 +27,6 @@ npm install -g @vue/cli
 
 npm install vuelidate --save
 
+npm install --save vue-search-select
+
+
