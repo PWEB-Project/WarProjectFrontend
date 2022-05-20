@@ -69,7 +69,7 @@
         </v-btn>
       </v-app-bar>
     </v-card> -->
-    <AnonymousUserBar />
+    <!-- <AnonymousUserBar /> -->
     <v-container>
       <router-view />
     </v-container>
