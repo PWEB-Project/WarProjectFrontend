@@ -144,7 +144,15 @@ export default {
         .signOut()
         .then(() => {
           alert('Successfully logged out');
-          this.$router.push('/');
+          // this.$router.push('/');
+            firebase.auth().signInAnonymously()
+            .then(() => {
+              this.$router.push('/');
+            })
+            .catch((error) => {
+            const errorMessage = error.message;
+              alert(errorMessage);
+            });
         })
         .catch(error => {
           alert(error.message);
