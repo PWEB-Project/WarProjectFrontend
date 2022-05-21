@@ -76,6 +76,19 @@
                     @click:append="show1 = !show1"
                   ></v-text-field>
                 </v-col>
+                <v-radio-group
+                  v-model="role"
+                  row
+                >
+                  <v-radio
+                    label="Administrator"
+                    value="Administrator"
+                  ></v-radio>
+                  <v-radio
+                    label="Journalist"
+                    value="Journalist"
+                  ></v-radio>
+                </v-radio-group>
                 <v-col class="d-flex" cols="12" sm="6" xsm="12"> </v-col>
                 <v-spacer></v-spacer>
                 <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
@@ -104,14 +117,10 @@
 import firebase from 'firebase/compat/app';
 export default {
   data: () => ({
-    dialog: true,
+    dialog: false,
     valid: true,
-
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
     verify: "",
+    role: null,
     loginPassword: "",
     loginEmail: "",
     loginEmailRules: [
@@ -126,7 +135,7 @@ export default {
     show1: false,
     rules: {
       required: (value) => !!value || "Required.",
-      min: (v) => (v && v.length >= 8) || "Min 8 characters",
+      min: (v) => (v && v.length >= 5) || "Min 8 characters",
     },
   }),
   methods: {
@@ -134,9 +143,12 @@ export default {
       if (this.$refs.loginForm.validate()) {
         firebase
           .auth()
-          .signInWithEmailAndPassword(this.user.email, this.user.password)
+          .signInWithEmailAndPassword(this.loginEmail, this.loginPassword)
           .then(() => {
-            this.$router.push("/home");
+            this.dialog = false;
+            this.$store.dispatch('add_role', this.role);
+            console.log(localStorage.getItem("role"));
+            this.$router.push("/news");
           })
           .catch((error) => {
             alert(error.message);

@@ -1,8 +1,8 @@
 <template>
   <v-app id="app">
-    <!-- <AnonymousUserBar/> -->
-    <AdminUserBar />
-    <!-- <JournalistUserBar /> -->
+    <AdminUserBar  v-if="$store.state.role === 'Administrator'"/>
+    <JournalistUserBar v-else-if="$store.state.role === 'Journalist'" />
+    <AnonymousUserBar v-else/>
     <!-- <v-card class="rounded-0 d-flex flex-column">
       <v-app-bar
         color="grey darken-4"
@@ -77,8 +77,8 @@
 </template>
 
 <script>
-// import JournalistUserBar from './views/JournalistUserBar.vue'
-// import AnonymousUserBar from './views/AnonymousUserBar.vue';
+import JournalistUserBar from './views/JournalistUserBar.vue'
+import AnonymousUserBar from './views/AnonymousUserBar.vue';
 import AdminUserBar from './views/AdminUserBar.vue';
 // import DisplayView from './views/DisplayView';
 // import api from ""
@@ -87,9 +87,9 @@ export default {
 
   components: {
     // DisplayView,
-    // AnonymousUserBar,
-    AdminUserBar
-    // JournalistUserBar
+    AnonymousUserBar,
+    AdminUserBar,
+    JournalistUserBar
   },
 
   data: () => ({

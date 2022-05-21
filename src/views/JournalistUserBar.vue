@@ -45,7 +45,7 @@
             </v-list-item-icon>
             <v-list-item-title>Articles</v-list-item-title>
           </v-list-item>
-          <v-list-item link to="/logout">
+          <v-list-item @click="logout">
             <v-list-item-icon>
               <v-icon>mdi-logout</v-icon>
             </v-list-item-icon>
@@ -57,8 +57,32 @@
 </template>
 
 <script>
+import firebase from 'firebase/compat/app';
   export default {
-    //
+    methods:{
+      logout() {
+      firebase.auth()
+        .signOut()
+        .then(() => {
+          alert('Successfully logged out');
+          // this.$router.push('/');
+            firebase.auth().signInAnonymously()
+            .then(() => {
+              this.$store.dispatch('add_role', "Anon");
+              this.$router.push('/news');
+              
+            })
+            .catch((error) => {
+            const errorMessage = error.message;
+              alert(errorMessage);
+            });
+        })
+        .catch(error => {
+          alert(error.message);
+          this.$router.push('/');
+        });
+    }
+    }
   }
 </script>
 

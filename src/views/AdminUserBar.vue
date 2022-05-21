@@ -147,7 +147,9 @@ export default {
           // this.$router.push('/');
             firebase.auth().signInAnonymously()
             .then(() => {
-              this.$router.push('/');
+              this.$store.dispatch('add_role', "Anon");
+              this.$router.push('/news');
+              
             })
             .catch((error) => {
             const errorMessage = error.message;
