@@ -97,7 +97,7 @@ jobs:
         git commit -m "Updated manifest file"
         git push origin release-${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
 
-    - name: Update Release-latest tag
+    - name: Update release-latest tag
       run: |
-        git tag Release-latest -f
-        git push origin Release-latest -f
+        git tag release-latest -f
+        git push origin release-latest -f
