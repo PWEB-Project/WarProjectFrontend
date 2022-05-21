@@ -1,4 +1,4 @@
-name: Frontend Docker image build
+name: Build new frontend Docker image and deploy it in cluster. Add new release branch and update release-latest tag.
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
 
     - name: Move to release branch
       run: |
-        git config user.name Stefania12
+        git config user.name ReleaseBot
         git config user.email stefania.damian1207@gmail.com
         git checkout -b release-${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
 
