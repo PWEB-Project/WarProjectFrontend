@@ -25,11 +25,15 @@ jobs:
     - run: npm run build --if-present
     - run: npm test --if-present
     
-    - uses: google-github-actions/setup-gcloud@v0.6.0
-    - name: Get the version
+    - name: Setup gcloud
+      uses: google-github-actions/setup-gcloud@v0.6.0
+
+    - name: Get tag name
       id: get_tag_name
       run: echo ::set-output name=GIT_TAG_NAME::${GITHUB_REF/refs\/tags\//}
-    - uses: RafikFarhad/push-to-gcr-github-action@v4
+
+    - name: Push image to GCR
+      uses: RafikFarhad/push-to-gcr-github-action@v4
       with:
         gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
         registry: gcr.io
@@ -78,3 +82,16 @@ jobs:
                   image: gcr.io/pweb-idp/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
                   ports:
                   - containerPort: 8080
+
+    - name: Commit and push new manifest file
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Updated manifest
+        file_pattern: manifest.yaml
+
+        skip_dirty_check: true    
+        skip_fetch: true    
+        skip_checkout: true
+        disable_globbing: true
+
+        create_branch: false
