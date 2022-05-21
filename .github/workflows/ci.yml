@@ -101,3 +101,13 @@ jobs:
       run: |
         git tag release-latest -f
         git push origin release-latest -f
+
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Invoke deployment hook
+        uses: distributhor/workflow-webhook@v2
+        env:
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
