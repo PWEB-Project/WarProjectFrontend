@@ -7,9 +7,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [12.x]
@@ -34,7 +32,7 @@ jobs:
         git checkout -b release-${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
 
     - run: npm ci
-    - run: npm run build --if-present
+    - run: npm run build
     - run: npm test --if-present
 
     - name: Setup gcloud
@@ -107,7 +105,5 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Invoke deployment hook
-        uses: distributhor/workflow-webhook@v2
-        env:
-          webhook_url: ${{ secrets.WEBHOOK_URL }}
+      - name: Trigger Portainer webhook
+        run: curl -X POST ${{ secrets.WEBHOOK_URL }}
