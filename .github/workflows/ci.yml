@@ -26,11 +26,11 @@ jobs:
       id: get_tag_name
       run: echo ::set-output name=GIT_TAG_NAME::${GITHUB_REF/refs\/tags\//}
 
-    - name: Move to master branch
+    - name: Move to release branch
       run: |
         git config user.name Stefania12
         git config user.email stefania.damian1207@gmail.com
-        git checkout master
+        git checkout infrastructure
 
     - run: npm ci
     - run: npm run build --if-present
@@ -90,11 +90,8 @@ jobs:
                   ports:
                   - containerPort: 8080
 
-    - name: Commit and push new manifest file and add release tag
+    - name: Commit and push new manifest file
       run: |
         git add manifest.yaml
         git commit -m "Updated manifest file"
-        git push origin master
-        git tag Release-${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
-        git push origin Release-${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
-
+        git push origin infrastrusture
