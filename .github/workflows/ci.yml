@@ -40,41 +40,41 @@ jobs:
 
     - name: Generate Kubernetes manifest file with updated image tag
       uses: 1arp/create-a-file-action@0.2
-        with:
-          file: 'manifest.yaml'
-          content: |
-            apiVersion: v1
-            kind: Service
-            metadata:
-              name: frontend
-              labels:
+      with:
+        file: 'manifest.yaml'
+        content: |
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: frontend
+            labels:
+              app: frontend
+          spec:
+            selector:
+              app: frontend
+            type: ClusterIP
+            ports:
+              - port: 8080
+                targetPort: 8080
+          ---
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: frontend
+            labels:
+              app: frontend
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
                 app: frontend
-            spec:
-              selector:
-                app: frontend
-              type: ClusterIP
-              ports:
-                - port: 8080
-                  targetPort: 8080
-            ---
-            apiVersion: apps/v1
-            kind: Deployment
-            metadata:
-              name: frontend
-              labels:
-                app: frontend
-            spec:
-              replicas: 1
-              selector:
-                matchLabels:
+            template:
+              metadata:
+                labels:
                   app: frontend
-              template:
-                metadata:
-                  labels:
-                    app: frontend
-                spec:
-                  containers:
-                  - name: frontend
-                    image: gcr.io/pweb-idp/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
-                    ports:
-                    - containerPort: 8080
+              spec:
+                containers:
+                - name: frontend
+                  image: gcr.io/pweb-idp/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
+                  ports:
+                  - containerPort: 8080
