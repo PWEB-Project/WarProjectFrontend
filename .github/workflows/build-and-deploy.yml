@@ -85,6 +85,9 @@ jobs:
                 containers:
                 - name: frontend
                   image: gcr.io/pweb-idp/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
+                  env:
+                    - name: VUE_APP_BACKEND_URL
+                      value: http://backend:8098/api
                   ports:
                   - containerPort: 8080
 
