@@ -1,5 +1,6 @@
 import axios from "axios";
 
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 const AXIOS = axios.create({
   baseURL: process.env.VUE_APP_BACKEND_URL !== "" ? process.env.VUE_APP_BACKEND_URL : `http://localhost:8098/api`,
@@ -44,38 +45,6 @@ const AXIOS = axios.create({
 // );
 
 export default {
-  login(email, password) {
-    return AXIOS.post("/login", {
-      email: email,
-      password: password
-    });
-  },
-  getMenu() {
-    return AXIOS.get("/menu");
-  },
-  getMenuElementsFromCafeteria(name) {
-    return AXIOS.get("/cafeteria/getMenuFromCafeteria/" + name);
-  },
-  getMenuElementsFromMenuDay(day, cafeteria) {
-    return AXIOS.get(
-      "/cafeteria/menuElementsFromMenuDay/" + day + "/" + cafeteria
-    );
-  },
-  getUserWithoutId() {
-    return AXIOS.get("/user/getCurrentUser");
-  },
-  getCafeteriasAdmin() {
-    return AXIOS.get("/cafeteria/cafeteriaAdmin");
-  },
-  getUsers() {
-    return AXIOS.get("/user");
-  },
-  getOrders() {
-    return AXIOS.get("/order/getAll");
-  },
-  getPosts(date1, date2) {
-    return AXIOS.post("/posts", {"startDate": new Date(date1).getTime(), "endDate": new Date(date2).getTime()});
-  },
   getCountries(){
     return AXIOS.get("/country/getCountries");
   },
@@ -87,5 +56,38 @@ export default {
   },
   getBunkers(cityId){
     return AXIOS.get("/bunker/admin/get-bunkers-by-city-id/" + cityId);
+  },
+  getGoods(cityId){
+    return AXIOS.get("/necessity/admin/get-necessity-goods-by-city-id/" + cityId);
+  },
+  getNews(){
+    return AXIOS.get("/news/get-news");
+  },
+  getArticles(){
+   return AXIOS.get("/news/get-articles"); 
+  },
+  getReviews(newsId){
+    return AXIOS.get("/review/getReviewsByNews/" + newsId);
+  },
+  addNewNews(news){
+    return AXIOS.post("/news/admin/add-news", news);
+  },
+  addNewSubscriber(subscriber){
+    return AXIOS.post("/subscriber/admin/add-subscriber", subscriber);
+  },
+  addNewBunker(bunker){
+    console.log(bunker);
+    return AXIOS.post("/bunker/admin/add-bunker", bunker);
+  },
+  getGoodsType(){
+    return AXIOS.get("/goods-type/admin/get-goods-type");
+  },
+  addNewGoods(goods){
+    console.log(goods);
+    return AXIOS.post("/necessity/admin/add-necessity-goods", goods);
+  },
+  addNewReview(review){
+    console.log(review);
+    return AXIOS.post("/review/admin/add-review", review);
   }
 };

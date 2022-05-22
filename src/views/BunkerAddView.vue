@@ -1,69 +1,31 @@
 <template>
   <div class="add-bunker">
-    <v-card class="d-flex flex-row-reverse" flat color="transparent">
-      <v-breadcrumbs
-        :items="breadcrumbs"
-        divider=">"
-      ></v-breadcrumbs>
-    </v-card>
+    <v-dialog v-model="dialog" max-width="600">
     <v-card>
       <v-container>
         <h1>Add New Bunker</h1>
         <form @submit.prevent="submit">
-          <v-select
-            v-model="country"
-            :items="countries"
-            :error-messages="countryErrors"
-            label="Country"
-            required
-            @change="$v.country.$touch()"
-            @blur="$v.country.$touch()"
-            multiple
-          ></v-select>
-          <v-select
-            v-model="county"
-            :items="counties"
-            :error-messages="countyErrors"
-            label="County"
-            required
-            @change="$v.county.$touch()"
-            @blur="$v.county.$touch()"
-            multiple
-          ></v-select>
-          <v-select
-            v-model="city"
-            :items="cities"
-            :error-messages="cityErrors"
-            label="City"
-            required
-            @change="$v.city.$touch()"
-            @blur="$v.city.$touch()"
-            multiple
-          ></v-select>
+          <v-select v-model="valueCountry" :items="countries" label="Select Country" dense item-text="name"
+                    item-value="iso2" @input="selectCountry">
+                  </v-select>
+          <v-select v-model="valueCounty" :items="counties" label="Select County" dense item-text="name"
+                    item-value="iso2" @input="selectCounty">
+                  </v-select>
+          <v-select v-model="valueCity" :items="cities" label="Select City" dense item-text="name"
+                    item-value="id">
+                  </v-select>
           <v-text-field
             v-model="address"
-            :error-messages="addressErrors"
             label="Address"
-            required
-            @input="$v.address.$touch()"
-            @blur="$v.address.$touch()"
           ></v-text-field>
           <v-text-field
             v-model="maxCapacity"
-            :error-messages="maxCapacityErrors"
             label="Maximum Capacity"
-            required
-            @input="$v.maxCapacity.$touch()"
-            @blur="$v.maxCapacity.$touch()"
             type="number"
           ></v-text-field>
           <v-text-field
             v-model="currentCapacity"
-            :error-messages="currentCapacityErrors"
             label="Current Capacity"
-            required
-            @input="$v.currentCapacity.$touch()"
-            @blur="$v.currentCapacity.$touch()"
             type="number"
           ></v-text-field>
           <v-menu
@@ -72,7 +34,6 @@
           transition="scale-transition"
           offset-y
           min-width="auto"
-          :error-messages="lastUpdateErrors"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
@@ -86,25 +47,23 @@
           </template>
           <v-date-picker
             v-model="lastUpdate"
-            @input="menuLastUpdate = false;"  
-            @change="$v.lastUpdate.$touch()"
-            @blur="$v.lastUpdate.$touch()"          
+            @input="menuLastUpdate = false;"            
           ></v-date-picker>
         </v-menu>
     <v-btn
-      class="mr-4"
+      color="#7B61FF" class="white--text"
       type="submit"
-      @click="submit"
-      :disabled="invalid"
+      @click.stop="submit"
     >
-      submit
+      Save
     </v-btn>
-    <v-btn @click="clear">
-      clear
+    <v-btn @click.stop="clear" color="#7B61FF" class="white--text">
+      Delete
     </v-btn>
   </form>
       </v-container>
     </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -112,10 +71,12 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
-
+  import api from '../components/backend_api'
   export default {
     mixins: [validationMixin],
-
+    props: {
+      value: Boolean
+    },
     validations: {
       address: { required },
       country: { required },
@@ -127,32 +88,17 @@
     },
 
     data: () => ({
-      address: '',
-      country: null,
-      county: null,
-      city: null,
+      address: "",
       maxCapacity: 100,
       currentCapacity: 0,
       menuLastUpdate: false,
       lastUpdate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-      countries: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-      ],
-      counties: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-      ],
-      cities: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-      ],
+      countries: [],
+      valueCountry: "",
+      counties: [],
+      valueCounty: "",
+      cities: [],
+      valueCity: "",
       breadcrumbs: [
         {
           text: 'Dashboard',
@@ -173,6 +119,14 @@
     }),
 
     computed: {
+      dialog: {
+      get() {
+        return this.value
+      },
+      set(value) {
+        this.$emit('input', value)
+      }
+    },
       countryErrors () {
         const errors = []
         if (!this.$v.country.$dirty) return errors
@@ -217,21 +171,96 @@
       },
     },
 
-    methods: {
-      submit () {
-        this.$v.$touch()
-      },
-      clear () {
-        this.$v.$reset()
-        this.address = ''
-        this.country = null
-        this.county = null
-        this.city = null
-        this.maxCapacity = 100
-        this.currentCapacity = 0
-        this.menuLastUpdate = false
-        this.lastUpdate = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
-      },
+    // methods: {
+    //   submit () {
+    //     this.$v.$touch()
+    //   },
+    //   clear () {
+    //     this.$v.$reset()
+    //     this.address = ''
+    //     this.country = null
+    //     this.county = null
+    //     this.city = null
+    //     this.maxCapacity = 100
+    //     this.currentCapacity = 0
+    //     this.menuLastUpdate = false
+    //     this.lastUpdate = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+    //   },
+    // },
+    mounted(){
+    this.initialize();
+  },
+  methods: {
+    selectCounty() {
+      api
+        .getCity(this.valueCountry, this.valueCounty)
+        .then(response => {
+          console.log(response.data);
+          this.cities = response.data;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
     },
+    selectCountry() {
+      api
+        .getCounties(this.valueCountry)
+        .then(response => {
+          console.log(response.data);
+          this.counties = response.data;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
+    },
+    getCountryByCode(code) {
+      return this.counties.filter(
+        function (data) { return data.iso2 == code }
+      );
+    },
+    getCityById(code) {
+      return this.cities.filter(
+        function (data) { return data.id == code }
+      );
+    },
+    initialize() {
+      api
+        .getCountries()
+        .then(response => {
+          console.log(response.data);
+          this.countries = response.data;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
+
+    },
+    closeClick() {
+      this.dialog = false;
+    },
+    submit() {
+      api
+        .addNewBunker({
+          "address": this.address + "," + this.getCityById(this.valueCity)[0].name + ", " + this.valueCountry,
+          "maximCapacity": this.maxCapacity, "currentCapacity": this.currentCapacity,
+          "lastUpdate": this.lastUpdate, "cityId": this.valueCity
+        })
+        .then(() => {
+          this.dialog = false;
+        })
+        .catch(error => {
+          this.dialog = false;
+          console.log(error);
+        });
+    },
+    clear() {
+      this.email = ''
+      this.country = null
+      this.county = null
+      this.city = null
+      this.checkbox = false
+      this.dialog = false;
+    },
+  },
   }
 </script>

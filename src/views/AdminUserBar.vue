@@ -1,32 +1,65 @@
 <template>
   <v-app>
-    <v-navigation-drawer permanent expand-on-hover dark dense>
-      <!-- <v-list> -->
-      <!-- <v-list-item class="px-2"> -->
-      <!-- <v-list-item-avatar> -->
-      <!-- <v-img src="https://www.kindpng.com/picc/m/562-5621554_frase-stay-strong-hd-png-download.png"></v-img> -->
-      <!-- </v-list-item-avatar> -->
-      <!-- </v-list-item> -->
-      <!-- 
-          <v-list-item link>
-            <v-list-item-content>
-              <v-list-item-title class="text-h6">
-                Sandra Adams
-              </v-list-item-title>
-              <v-list-item-subtitle>sandra_a88@gmail.com</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item> -->
-      <!-- </v-list> -->
+    <v-navigation-drawer permanent expand-on-hover dense color="#f1eef2">
+      <v-list>
+        <v-list-item link to="/home">
+          <v-img src="../assets/Logo (1).png"></v-img>
+        </v-list-item>
+      </v-list>
 
       <v-divider></v-divider>
 
       <v-list nav dense>
-        <v-list-item link to="/user-profile">
+        <!-- <v-list-item link to="/user-profile">
           <v-list-item-icon>
             <v-icon>mdi-account</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>User Profile</v-list-item-title>
-        </v-list-item>
+          <v-list-item-title>Users</v-list-item-title>
+        </v-list-item> -->
+        <v-dialog v-model="dialog_user" persistent max-width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-list-item v-bind="attrs" v-on="on">
+              <v-list-item-icon>
+                <v-icon>mdi-account</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Users</v-list-item-title>
+            </v-list-item>
+          </template>
+          <v-card class="px-4">
+            <v-card-text>
+              <v-form ref="loginForm" v-model="valid" lazy-validation>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field v-model="loginEmail" :rules="loginEmailRules" label="E-mail" required></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field v-model="loginPassword" :append-icon="show1 ? 'eye' : 'eye-off'"
+                      :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'" name="input-10-1"
+                      label="Password" hint="At least 8 characters" counter @click:append="show1 = !show1">
+                    </v-text-field>
+                  </v-col>
+                  <v-radio-group v-model="role" row>
+                    <v-radio label="Administrator" value="Administrator"></v-radio>
+                    <v-radio label="Journalist" value="Journalist"></v-radio>
+                  </v-radio-group>
+                  <v-col class="d-flex" cols="12" sm="6" xsm="12"> </v-col>
+                  <v-spacer></v-spacer>
+                  <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
+                    <v-btn color="#7B61FF" class="white--text" @click="validate">
+                      Save user
+                    </v-btn>
+                  </v-col>
+                  <v-spacer></v-spacer>
+                  <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
+                    <v-btn color="#7B61FF" class="white--text" @click="dialog_user = false">
+                      Cancel
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
         <v-list-item link to="/bunker">
           <v-list-item-icon>
             <v-icon>mdi-warehouse</v-icon>
@@ -51,14 +84,8 @@
           </v-list-item-icon>
           <v-list-item-title>Articles</v-list-item-title>
         </v-list-item>
-        <v-list-item link to="/review">
-          <v-list-item-icon>
-            <v-icon>mdi-star</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>Reviews</v-list-item-title>
-        </v-list-item>
         <v-dialog v-model="dialog" persistent max-width="600px">
-          <template v-slot:activator="{ on, attrs }" >
+          <template v-slot:activator="{ on, attrs }">
             <v-list-item v-on="on" v-bind="attrs" @click="initialize">
               <v-list-item-icon>
                 <v-icon>mdi-access-point</v-icon>
@@ -87,23 +114,24 @@
               </v-list>
               <v-list>
                 <v-container fluid>
-                  <v-select v-model="valueCity" :items="cities" label="Select City" dense item-text="name" item-value="id">
+                  <v-select v-model="valueCity" :items="cities" label="Select City" dense item-text="name"
+                    item-value="id">
                   </v-select>
                 </v-container>
               </v-list>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-              <v-btn color="blue darken-1" text @click="close">
+              <v-btn color="#7B61FF" class="white--text" @click="close">
                 Close
               </v-btn>
-              <v-btn color="blue darken-1" text @click="save">
+              <v-btn color="#7B61FF" class="white--text" @click="save">
                 Save
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-list-item link to="/logout" style="vertical-aligne: bottom">
+        <v-list-item style="vertical-aligne: bottom" @click="logout">
           <v-list-item-icon>
             <v-icon>mdi-logout</v-icon>
           </v-list-item-icon>
@@ -116,9 +144,11 @@
 
 <script>
 import api from "../components/backend_api";
+import firebase from "firebase/compat/app";
 
 export default {
   data: () => ({
+    role: null,
     icons: [
       'mdi-facebook',
       'mdi-twitter',
@@ -126,17 +156,64 @@ export default {
       'mdi-instagram',
     ],
     dialog: false,
+    dialog_user: false,
     countries: [],
     valueCountry: "",
     counties: [],
     valueCounty: "",
     cities: [],
-    valueCity: ""
+    valueCity: "",
+    loginPassword: "",
+    loginEmail: "",
+    valid: null,
+    loginEmailRules: [
+      (v) => !!v || "Required",
+      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    ],
+    emailRules: [
+      (v) => !!v || "Required",
+      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    ],
+
+    show1: false,
+    rules: {
+      required: (value) => !!value || "Required.",
+      min: (v) => (v && v.length >= 5) || "Min 6 characters",
+    },
   }),
-  // created() {
-  //   this.initialize();
-  // },
+  mounted() {
+    if (localStorage.getItem("city") == "null") {
+      this.open_dialog();
+      this.initialize();
+    }
+  },
   methods: {
+    open_dialog() {
+      this.dialog = true;
+    },
+    logout() {
+      firebase.auth()
+        .signOut()
+        .then(() => {
+          alert('Successfully logged out');
+          // this.$router.push('/');
+          firebase.auth().signInAnonymously()
+            .then(() => {
+              this.$store.dispatch('add_role', "Anon");
+              this.$store.dispatch('delete_city');
+              this.$router.push('/news');
+
+            })
+            .catch((error) => {
+              const errorMessage = error.message;
+              alert(errorMessage);
+            });
+        })
+        .catch(error => {
+          alert(error.message);
+          this.$router.push('/');
+        });
+    },
     // reserve(name) {
     //   this.loading = true;
     //   console.log(name);
@@ -148,16 +225,6 @@ export default {
       this.dialog = false;
     },
     save() {
-      // var new_name =
-      //   this.editedItem.first_name + " " + this.editedItem.last_name;
-      // if (this.editedIndex > -1) {
-      //   Object.assign(this.items[this.editedIndex], {
-      //     ...this.editedItem,
-      //     ...{ name: new_name }
-      //   });
-      // } else {
-      //   this.items.push({ ...this.editedItem, ...{ name: new_name } });
-      // }
       this.$store.dispatch('add_city', this.valueCity);
       console.log(localStorage.getItem("city"));
       this.close();
@@ -195,6 +262,20 @@ export default {
           this.errors.push(error);
         });
 
+    },
+    validate() {
+
+      console.log("in register");
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.loginEmail, this.loginPassword)
+        .then((res) => {
+          console.log(res);
+          this.dialog_user = false;
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
     }
   }
 }

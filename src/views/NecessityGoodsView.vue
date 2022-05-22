@@ -9,7 +9,8 @@
     <v-card>
       <v-container>
         <h1>This is an Necessity Goods page</h1>
-        <v-btn link to="/add-necessity-goods"
+        <v-btn 
+        @click.stop="dialog = true"
           class="mx-2"
           fab
           dark
@@ -19,12 +20,13 @@
             mdi-plus
           </v-icon>
         </v-btn>
+        <NecessityGoodsAddView v-model="dialog" />
       </v-container>
     </v-card>
     
   <v-card>
     <v-card-title>
-      Nutrition
+      Goods
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -36,7 +38,7 @@
     </v-card-title>
     <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="goods"
       :search="search"
     ></v-data-table>
   </v-card>
@@ -45,8 +47,41 @@
 </template>
 
 <script>
+import api from "../components/backend_api";
+import NecessityGoodsAddView from "./NecessityGoodsAddView.vue";
   export default {
+    components: {
+    NecessityGoodsAddView
+},
+    created() {
+        this.initialize();
+    },
+     watch: {
+    dialog: {
+      handler(newValue, oldValue) {
+        if(newValue === false && oldValue === true){
+          this.initialize();
+        }
+      },
+      deep: true
+    }
+  },
+    methods: {
+        initialize() {
+            api
+                .getGoods(localStorage.getItem("city"))
+                .then(response => {
+                    console.log(response.data);
+                    this.goods = response.data;
+                })
+                .catch(error => {
+                    this.errors.push(error);
+                });
+
+        }
+    },
     data: () => ({
+      dialog: false,
       breadcrumbs: [
         {
           text: 'Dashboard',
@@ -62,35 +97,17 @@
       search: '',
         headers: [
           {
-            text: 'Dessert (100g serving)',
-            align: 'start',
-            sortable: false,
-            value: 'name',
-          },
-          { text: 'Calories', value: 'calories' },
-          { text: 'Fat (g)', value: 'fat' },
-          { text: 'Carbs (g)', value: 'carbs' },
-          { text: 'Protein (g)', value: 'protein' },
-          { text: 'Iron (%)', value: 'iron' },
+                text: 'Address',
+                align: 'start',
+                sortable: false,
+                value: 'address',
+            },
+            { text: 'Maxim Capacity', value: 'maximCapacity' },
+            { text: 'Current Capacity', value: 'currentCapacity' },
+            { text: 'Last Update', value: 'lastUpdate' },
+            { text: 'Goods Type', value: 'goodsType.goodTypeName' }
         ],
-        desserts: [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: '1%',
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            iron: '1%',
-          },
-        ],
+        goods: [],
     }),
   }
 </script>
