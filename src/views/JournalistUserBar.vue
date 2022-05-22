@@ -10,12 +10,6 @@
       <v-divider></v-divider>
 
       <v-list nav dense>
-        <v-list-item link to="/user-profile">
-          <v-list-item-icon>
-            <v-icon>mdi-account</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>User Profile</v-list-item-title>
-        </v-list-item>
         <v-list-item link to="/news">
           <v-list-item-icon>
             <v-icon>mdi-newspaper</v-icon>
@@ -90,6 +84,40 @@
 import firebase from 'firebase/compat/app';
 import api from "../components/backend_api";
 export default {
+  data: () => ({
+    role: null,
+    icons: [
+      'mdi-facebook',
+      'mdi-twitter',
+      'mdi-linkedin',
+      'mdi-instagram',
+    ],
+    dialog: false,
+    dialog_user: false,
+    countries: [],
+    valueCountry: "",
+    counties: [],
+    valueCounty: "",
+    cities: [],
+    valueCity: "",
+    loginPassword: "",
+    loginEmail: "",
+    valid: null,
+    loginEmailRules: [
+      (v) => !!v || "Required",
+      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    ],
+    emailRules: [
+      (v) => !!v || "Required",
+      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    ],
+
+    show1: false,
+    rules: {
+      required: (value) => !!value || "Required.",
+      min: (v) => (v && v.length >= 5) || "Min 6 characters",
+    },
+  }),
   mounted() {
     if (localStorage.getItem("city") == "null") {
       this.open_dialog();

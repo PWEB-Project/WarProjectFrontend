@@ -23,18 +23,18 @@
         <v-list-item-title>Articles</v-list-item-title>
       </v-list-item>
     
-            <v-list-item @click.stop="dialog_subscribe = true">
+            <v-list-item @click.stop="dialog_subscribe=true">
         <v-list-item-icon>
           <v-icon>mdi-send-circle-outline</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Subscribe</v-list-item-title>
       </v-list-item>
       
-      <SubscribeAddView v-model="dialog_subscribe"/>
+      <SubscribeAddView :value="dialog_subscribe"/>
       
       <v-dialog v-model="dialogLocation" persistent max-width="600px" >
           <template v-slot:activator="{ on, attrs }">
-            <v-list-item v-on="on" v-bind="attrs">
+            <v-list-item v-on="on" v-bind="attrs" @click="initialize">
               <v-list-item-icon>
                 <v-icon>mdi-access-point</v-icon>
               </v-list-item-icon>

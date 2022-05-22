@@ -57,7 +57,7 @@
                       mdi-monitor-eye
                     </v-icon>
                     </template>
-                    <ReviewAddView/>
+                    <ReviewAddView :IdNewsRev="n.id"/>
                     </v-dialog>
                     <span class="subheading mr-2"></span>
                     <span class="mr-1"></span>

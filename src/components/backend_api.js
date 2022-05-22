@@ -85,5 +85,9 @@ export default {
   addNewGoods(goods){
     console.log(goods);
     return AXIOS.post("/necessity/admin/add-necessity-goods", goods);
+  },
+  addNewReview(review){
+    console.log(review);
+    return AXIOS.post("/review/admin/add-review", review);
   }
 };

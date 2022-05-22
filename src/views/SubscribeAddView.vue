@@ -13,10 +13,10 @@
           <v-checkbox v-model="checkbox" :error-messages="checkboxErrors" label="Do you agree to receive news on?"
             required @change="$v.checkbox.$touch()" @blur="$v.checkbox.$touch()"></v-checkbox>
 
-          <v-btn class="mr-4" type="submit" text @click.stop="submit">
+          <v-btn color="#7B61FF" class="white--text" type="submit" @click.stop="submit">
             Save
           </v-btn>
-          <v-btn text @click.stop="dialog = false">
+          <v-btn color="#7B61FF" class="white--text" @click.stop="dialog = false" @click="clear">
             Cancel
           </v-btn>
         </form>
@@ -147,9 +147,9 @@ export default {
     submit() {
       api
         .addNewSubscriber({
-          "email": this.email,  "countyId": this.getCountryByCode(this.valueCounty)[0].id, "writer": this.author
-        })
+          "email": this.email,  "countyId": this.getCountryByCode(this.valueCounty)[0].id, "writer": this.author})
         .then(() => {
+          console.log(this.dialog);
           this.dialog = false;
         })
         .catch(error => {
@@ -158,6 +158,7 @@ export default {
         });
     },
     clear() {
+      this.dialog = false;
       this.$v.$reset()
       this.email = ''
       this.country = null

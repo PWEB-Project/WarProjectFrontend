@@ -84,12 +84,6 @@
           </v-list-item-icon>
           <v-list-item-title>Articles</v-list-item-title>
         </v-list-item>
-        <v-list-item link to="/review">
-          <v-list-item-icon>
-            <v-icon>mdi-star</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>Reviews</v-list-item-title>
-        </v-list-item>
         <v-dialog v-model="dialog" persistent max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-list-item v-on="on" v-bind="attrs" @click="initialize">

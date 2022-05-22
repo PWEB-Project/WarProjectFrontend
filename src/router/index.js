@@ -113,7 +113,6 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       console.log(localStorage.getItem("role"));
-      alert('You must be logged in to see this page');
       store.dispatch('add_role', "Anon");
       console.log(localStorage.getItem("role"));
       next({

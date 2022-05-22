@@ -93,18 +93,13 @@ export default {
             {
                 text: 'Dashboard',
                 disabled: false,
-                href: 'breadcrumbs_dashboard',
+                href: '/about',
             },
             {
-                text: 'Link 1',
+                text: 'Home',
                 disabled: false,
-                href: 'breadcrumbs_link_1',
-            },
-            {
-                text: 'Link 2',
-                disabled: true,
-                href: 'breadcrumbs_link_2',
-            },
+                href: '/home',
+            }
         ],
     }),
 }
