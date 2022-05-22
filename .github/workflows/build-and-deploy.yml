@@ -31,6 +31,7 @@ jobs:
         git config user.email stefania.damian1207@gmail.com
         git checkout -b release-${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
 
+    - run: echo "VUE_APP_BACKEND_URL=http://backend:8098/api" >> .env
     - run: npm ci || (rm -rf ./node_modules && rm -rf ./package-lock.json && npm install)
     - run: npm run build
 
@@ -85,9 +86,6 @@ jobs:
                 containers:
                 - name: frontend
                   image: gcr.io/pweb-idp/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
-                  env:
-                    - name: VUE_APP_BACKEND_URL
-                      value: http://backend:8098/api
                   ports:
                   - containerPort: 8080
 
