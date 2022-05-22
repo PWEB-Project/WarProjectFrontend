@@ -19,11 +19,11 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
 
-                <v-btn color="green darken-1" text @click.stop="dialog = false">
+                <v-btn color="#7B61FF" class="white--text" @click.stop="dialog = false" >
                     Disagree
                 </v-btn>
 
-                <v-btn color="green darken-1" text @click.stop="submit">
+                <v-btn color="#7B61FF" class="white--text" @click.stop="submit" >
                     Agree
                 </v-btn>
             </v-card-actions>
