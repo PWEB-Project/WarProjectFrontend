@@ -31,7 +31,7 @@ jobs:
         git config user.email stefania.damian1207@gmail.com
         git checkout -b release-${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
 
-    - run: npm ci
+    - run: npm ci || (rm -rf ./node_modules && rm -rf ./package-lock.json && npm install)
     - run: npm run build
 
     - name: Setup gcloud
