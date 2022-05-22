@@ -3,7 +3,7 @@ import axios from "axios";
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 const AXIOS = axios.create({
-  baseURL: `http://localhost:8098/api`,
+  baseURL: process.env.VUE_APP_BACKEND_URL !== "" ? process.env.VUE_APP_BACKEND_URL : `http://localhost:8098/api`,
   timeout: 30000.
   
 });
