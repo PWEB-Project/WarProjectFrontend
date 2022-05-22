@@ -51,13 +51,13 @@
           ></v-date-picker>
         </v-menu>
     <v-btn
-      class="mr-4"
+      color="#7B61FF" class="white--text"
       type="submit"
       @click.stop="submit"
     >
       Save
     </v-btn>
-    <v-btn @click.stop="clear">
+    <v-btn @click.stop="clear" color="#7B61FF" class="white--text">
       Delete
     </v-btn>
   </form>

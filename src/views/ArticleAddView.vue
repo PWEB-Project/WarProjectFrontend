@@ -89,13 +89,13 @@
           @blur="$v.body.$touch()" 
         ></v-textarea>
     <v-btn
-      class="mr-4"
+      color="#7B61FF" class="white--text"
       type="submit"
       @click="submit"
     >
       submit
     </v-btn>
-    <v-btn @click="clear">
+    <v-btn @click="clear" color="#7B61FF" class="white--text">
       clear
     </v-btn>
   </form>

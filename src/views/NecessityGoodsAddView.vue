@@ -26,10 +26,10 @@
               </template>
               <v-date-picker v-model="lastUpdate" @input="menuLastUpdate = false;"></v-date-picker>
             </v-menu>
-            <v-btn class="mr-4" type="submit" @click.stop="submit">
+            <v-btn color="#7B61FF" class="white--text" @click.stop="submit">
               submit
             </v-btn>
-            <v-btn @click.stop="clear">
+            <v-btn color="#7B61FF" class="white--text" @click.stop="clear">
               clear
             </v-btn>
           </form>

@@ -45,13 +45,13 @@
                   <v-col class="d-flex" cols="12" sm="6" xsm="12"> </v-col>
                   <v-spacer></v-spacer>
                   <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
-                    <v-btn x-large block color="success" @click="validate">
+                    <v-btn color="#7B61FF" class="white--text" @click="validate">
                       Save user
                     </v-btn>
                   </v-col>
                   <v-spacer></v-spacer>
                   <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
-                    <v-btn x-large block @click="dialog_user = false">
+                    <v-btn color="#7B61FF" class="white--text" @click="dialog_user = false">
                       Cancel
                     </v-btn>
                   </v-col>
@@ -128,10 +128,10 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-              <v-btn color="blue darken-1" text @click="close">
+              <v-btn color="#7B61FF" class="white--text" @click="close">
                 Close
               </v-btn>
-              <v-btn color="blue darken-1" text @click="save">
+              <v-btn color="#7B61FF" class="white--text" @click="save">
                 Save
               </v-btn>
             </v-card-actions>

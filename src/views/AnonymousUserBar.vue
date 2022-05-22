@@ -70,10 +70,10 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-              <v-btn color="blue darken-1" text @click="close">
+              <v-btn color="#7B61FF" class="white--text" @click="close">
                 Close
               </v-btn>
-              <v-btn color="blue darken-1" text @click="save">
+              <v-btn color="#7B61FF" class="white--text" @click="save">
                 Save
               </v-btn>
             </v-card-actions>
@@ -130,10 +130,7 @@
                 <v-spacer></v-spacer>
                 <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
                   <v-btn
-                    x-large
-                    block
-                    :disabled="!valid"
-                    color="success"
+                    color="#7B61FF" class="white--text"
                     @click="validate"
                   >
                     Login
@@ -142,8 +139,7 @@
                   <v-spacer></v-spacer>
                   <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
                   <v-btn
-                    x-large
-                    block
+                    color="#7B61FF" class="white--text"
                     @click="dialog=false"
                   >
                     Cancel
