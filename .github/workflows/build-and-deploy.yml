@@ -64,8 +64,8 @@ jobs:
               app: frontend
             type: ClusterIP
             ports:
-              - port: 8080
-                targetPort: 8080
+              - port: 80
+                targetPort: 80
           ---
           apiVersion: apps/v1
           kind: Deployment
@@ -87,7 +87,7 @@ jobs:
                 - name: frontend
                   image: gcr.io/pweb-idp/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
                   ports:
-                  - containerPort: 8080
+                  - containerPort: 80
 
     - name: Commit and push new manifest file
       run: |
