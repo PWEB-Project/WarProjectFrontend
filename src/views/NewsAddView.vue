@@ -9,8 +9,8 @@
     <v-card>
       <v-container>
         <h1>Add News</h1>
-        <form @submit.prevent="submit">
-          <v-select
+        <form @submit="submit">
+          <!-- <v-select
             v-model="country"
             :items="countries"
             :error-messages="countryErrors"
@@ -39,21 +39,40 @@
             @change="$v.city.$touch()"
             @blur="$v.city.$touch()"
             multiple
-          ></v-select>
+          ></v-select> -->
+          
+
+          <v-list>
+                <v-container fluid>
+                  <v-select v-model="valueCountry" :items="countries" label="Select Country" dense item-text="name"
+                    item-value="iso2" @input="selectCountry">
+                  </v-select>
+                </v-container>
+              </v-list>
+              <v-list>
+                <v-container fluid>
+                  <v-select v-model="valueCounty" :items="counties" label="Select County" dense item-text="name"
+                    item-value="iso2" @input="selectCounty">
+                  </v-select>
+                </v-container>
+              </v-list>
+              <v-list>
+                <v-container fluid>
+                  <v-select v-model="valueCity" :items="cities" label="Select City" dense item-text="name"
+                    item-value="id">
+                  </v-select>
+                </v-container>
+              </v-list>
           <v-text-field
             v-model="title"
             :error-messages="titleErrors"
             label="Title"
             required
-            @input="$v.title.$touch()"
-            @blur="$v.title.$touch()"
           ></v-text-field>
           <v-text-field
             v-model="fileLink"
             label="File Link"
             required
-            @input="$v.fileLink.$touch()"
-            @blur="$v.fileLink.$touch()"
           ></v-text-field>
           <v-menu
           v-model="menuPublicationDate"
@@ -75,9 +94,7 @@
           </template>
           <v-date-picker
             v-model="publicationDate"
-            @input="menuPublicationDate = false;"  
-            @change="$v.publicationDate.$touch()"
-            @blur="$v.publicationDate.$touch()"          
+            @input="menuPublicationDate = false;"            
           ></v-date-picker>
         </v-menu>
         <v-textarea
@@ -85,8 +102,6 @@
           label="Content News"
           :error-messages="bodyErrors"
           required
-          @change="$v.body.$touch()"
-          @blur="$v.body.$touch()" 
         ></v-textarea>
     <v-btn
       class="mr-4"
@@ -108,7 +123,7 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
-
+  import api from '../components/backend_api'
   export default {
     mixins: [validationMixin],
 
@@ -129,25 +144,14 @@
       county: null,
       city: null,
       menuPublicationDate: false,
-      publicationDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-      countries: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-      ],
-      counties: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-      ],
-      cities: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-      ],
+      publicationDate: "",
+      countries: [],
+    valueCountry: "",
+    counties: [],
+    valueCounty: "",
+    cities: [],
+    valueCity: "",
+    dialogLocation: false,
       breadcrumbs: [
         {
           text: 'Dashboard',
@@ -205,13 +209,61 @@
         return errors
       },
     },
-
+    mounted(){
+      this.initialize();
+    },
     methods: {
+      selectCountry() {
+      api
+        .getCounties(this.valueCountry)
+        .then(response => {
+          console.log(response.data);
+          this.counties = response.data;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
+    },
+    getCountryByCode(code) {
+      return this.counties.filter(
+          function(data){ return data.iso2 == code }
+      );
+    },
+    selectCounty() {
+      api
+        .getCity(this.valueCountry, this.valueCounty)
+        .then(response => {
+          console.log(response.data);
+          this.cities = response.data;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
+    },
+    initialize() {
+      api
+        .getCountries()
+        .then(response => {
+          console.log(response.data);
+          this.countries = response.data;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
+
+    },
       submit () {
-        this.$v.$touch()
+        api
+        .addNewNews({"publicationDate": this.publicationDate, "body": this.body, 
+        "title": this.title, "countyId": this.getCountryByCode(this.valueCounty)[0].id})
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
       },
       clear () {
-        this.$v.$reset()
         this.title = ''
         this.country = null
         this.county = null

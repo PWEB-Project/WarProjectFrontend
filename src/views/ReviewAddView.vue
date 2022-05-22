@@ -1,11 +1,5 @@
 <template>
   <div class="add-news">
-    <v-card class="d-flex flex-row-reverse" flat color="transparent">
-      <v-breadcrumbs
-        :items="breadcrumbs"
-        divider=">"
-      ></v-breadcrumbs>
-    </v-card>
     <v-card>
       <v-container>
         <h1>Add Review</h1>
@@ -56,10 +50,11 @@
       class="mr-4"
       type="submit"
       @click="submit"
+      @click.native="closeClick"
     >
       submit
     </v-btn>
-    <v-btn @click="clear">
+    <v-btn @click="clear" @click.native="closeClick">
       clear
     </v-btn>
   </form>
@@ -134,6 +129,9 @@
     },
 
     methods: {
+      closeClick () {
+        this.$emit('submit', 'test')
+    },
       submit () {
         this.$v.$touch()
       },

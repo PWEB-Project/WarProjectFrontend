@@ -24,7 +24,7 @@
     
   <v-card>
     <v-card-title>
-      Nutrition
+      Goods
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -36,7 +36,7 @@
     </v-card-title>
     <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="goods"
       :search="search"
     ></v-data-table>
   </v-card>
@@ -45,7 +45,25 @@
 </template>
 
 <script>
+import api from "../components/backend_api";
   export default {
+    created() {
+        this.initialize();
+    },
+    methods: {
+        initialize() {
+            api
+                .getGoods(localStorage.getItem("city"))
+                .then(response => {
+                    console.log(response.data);
+                    this.goods = response.data;
+                })
+                .catch(error => {
+                    this.errors.push(error);
+                });
+
+        }
+    },
     data: () => ({
       breadcrumbs: [
         {
@@ -62,35 +80,16 @@
       search: '',
         headers: [
           {
-            text: 'Dessert (100g serving)',
-            align: 'start',
-            sortable: false,
-            value: 'name',
-          },
-          { text: 'Calories', value: 'calories' },
-          { text: 'Fat (g)', value: 'fat' },
-          { text: 'Carbs (g)', value: 'carbs' },
-          { text: 'Protein (g)', value: 'protein' },
-          { text: 'Iron (%)', value: 'iron' },
+                text: 'Address',
+                align: 'start',
+                sortable: false,
+                value: 'address',
+            },
+            { text: 'Maxim Capacity', value: 'maximCapacity' },
+            { text: 'Current Capacity', value: 'currentCapacity' },
+            { text: 'Last Update', value: 'lastUpdate' }
         ],
-        desserts: [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: '1%',
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            iron: '1%',
-          },
-        ],
+        goods: [],
     }),
   }
 </script>

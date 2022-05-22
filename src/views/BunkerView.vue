@@ -15,7 +15,7 @@
     </v-card>
     <v-card>
       <v-card-title>
-        Nutrition
+        Bunkers
         <v-spacer></v-spacer>
         <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
       </v-card-title>
@@ -43,10 +43,10 @@ export default {
     search: '',
     headers: [
       {
-        text: 'Adress',
+        text: 'Address',
         align: 'start',
         sortable: false,
-        value: 'adress',
+        value: 'address',
       },
       { text: 'Maxim Capacity', value: 'maximCapacity' },
       { text: 'Current Capacity', value: 'currentCapacity' },

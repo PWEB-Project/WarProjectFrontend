@@ -1,5 +1,6 @@
 import axios from "axios";
 
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 const AXIOS = axios.create({
   baseURL: `http://localhost:8098/api`,
@@ -87,5 +88,21 @@ export default {
   },
   getBunkers(cityId){
     return AXIOS.get("/bunker/admin/get-bunkers-by-city-id/" + cityId);
+  },
+  getGoods(cityId){
+    return AXIOS.get("/necessity/admin/get-necessity-goods-by-city-id/" + cityId);
+  },
+  getNews(){
+    return AXIOS.get("/news/get-news");
+  },
+  getArticles(){
+   return AXIOS.get("/news/get-articles"); 
+  },
+  getReviews(newsId){
+    return AXIOS.get("/review/getReviewsByNews/" + newsId);
+  },
+  addNewNews(news){
+    console.log(news);
+    return AXIOS.post("/news/admin/add-news", news);
   }
 };
