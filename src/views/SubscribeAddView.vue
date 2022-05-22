@@ -1,40 +1,39 @@
 <template>
-  <div class="add-subscribe">
+  <v-dialog v-model="dialog" max-width="600">
     <v-card>
       <v-container>
         <form @submit.prevent="submit">
-          <v-text-field v-model="name" :counter="10" label="Name" required
-            @input="$v.name.$touch()" @blur="$v.name.$touch()"></v-text-field>
-          <v-text-field v-model="email" :error-messages="emailErrors" label="E-mail" required @input="$v.email.$touch()"
-            @blur="$v.email.$touch()"></v-text-field>
-          <v-select v-model="country" :items="countries" :error-messages="countryErrors" label="Country" required
-            @change="$v.country.$touch()" @blur="$v.country.$touch()" multiple></v-select>
-          <v-select v-model="county" :items="counties" :error-messages="countyErrors" label="County" required
-            @change="$v.county.$touch()" @blur="$v.county.$touch()" multiple></v-select>
-          <v-select v-model="city" :items="cities" :error-messages="cityErrors" label="City" required
-            @change="$v.city.$touch()" @blur="$v.city.$touch()" multiple></v-select>
+          <v-text-field v-model="name" :counter="10" label="Name"></v-text-field>
+          <v-text-field v-model="email" label="E-mail"></v-text-field>
+          <v-select v-model="valueCountry" :items="countries" label="Select Country" dense item-text="name"
+            item-value="iso2" @input="selectCountry">
+          </v-select>
+          <v-select v-model="valueCounty" :items="counties" label="Select County" dense item-text="name"
+            item-value="iso2"> </v-select>
           <v-checkbox v-model="checkbox" :error-messages="checkboxErrors" label="Do you agree to receive news on?"
             required @change="$v.checkbox.$touch()" @blur="$v.checkbox.$touch()"></v-checkbox>
 
-          <v-btn class="mr-4" type="submit" @click="submit" @click.native="closeClick">
-            submit
+          <v-btn class="mr-4" type="submit" text @click.stop="submit">
+            Save
           </v-btn>
-          <v-btn @click="clear" @click.native="closeClick">
-            clear
+          <v-btn text @click.stop="dialog = false">
+            Cancel
           </v-btn>
         </form>
       </v-container>
     </v-card>
-  </div>
+  </v-dialog>
 </template>
 
 <script>
 import { validationMixin } from 'vuelidate'
 import { required, email } from 'vuelidate/lib/validators'
-
+import api from '../components/backend_api'
 export default {
   mixins: [validationMixin],
-
+  props: {
+    value: Boolean
+  },
   validations: {
     email: { required, email },
     country: { required },
@@ -50,27 +49,10 @@ export default {
   data: () => ({
     name: '',
     email: '',
-    country: null,
-    county: null,
-    city: null,
-    countries: [
-      'Item 1',
-      'Item 2',
-      'Item 3',
-      'Item 4',
-    ],
-    counties: [
-      'Item 1',
-      'Item 2',
-      'Item 3',
-      'Item 4',
-    ],
-    cities: [
-      'Item 1',
-      'Item 2',
-      'Item 3',
-      'Item 4',
-    ],
+    countries: [],
+    valueCountry: "",
+    counties: [],
+    valueCounty: "",
     breadcrumbs: [
       {
         text: 'Dashboard',
@@ -87,6 +69,14 @@ export default {
   }),
 
   computed: {
+    dialog: {
+      get() {
+        return this.value
+      },
+      set(value) {
+        this.$emit('input', value)
+      }
+    },
     checkboxErrors() {
       const errors = []
       if (!this.$v.checkbox.$dirty) return errors
@@ -119,15 +109,53 @@ export default {
       return errors
     },
   },
-
+  mounted(){
+    this.initialize();
+  },
   methods: {
-    closeClick () {
-        this.$emit('submit', 'test')
+    selectCountry() {
+      api
+        .getCounties(this.valueCountry)
+        .then(response => {
+          console.log(response.data);
+          this.counties = response.data;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
+    },
+    getCountryByCode(code) {
+      return this.counties.filter(
+        function (data) { return data.iso2 == code }
+      );
+    },
+    initialize() {
+      api
+        .getCountries()
+        .then(response => {
+          console.log(response.data);
+          this.countries = response.data;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
+
+    },
+    closeClick() {
+      this.dialog = false;
     },
     submit() {
-
-      this.$v.$touch()
-      this.$emit('submit', 'test')
+      api
+        .addNewSubscriber({
+          "email": this.email,  "countyId": this.getCountryByCode(this.valueCounty)[0].id, "writer": this.author
+        })
+        .then(() => {
+          this.dialog = false;
+        })
+        .catch(error => {
+          this.dialog = false;
+          console.log(error);
+        });
     },
     clear() {
       this.$v.$reset()

@@ -82,6 +82,7 @@
 import { ModelSelect } from "vue-search-select";
 // import api from "../components/backend-api"
 import firebase from "firebase/compat/app";
+import listAllUsers from '../main';
 export default {
   props: {},
   components: {
@@ -96,11 +97,6 @@ export default {
       { text: "Nume", value: "lastName" },
       { text: "Rol", value: "role.name" },
       { text: "Actiuni", value: "actions", sortable: false }
-    ],
-    roles: [
-      { text: "user", value: "USER" },
-      { text: "admin", value: "ADMIN" },
-      { text: "cafeteria", value: "CAFETERIA" }
     ],
     items: [],
     editedIndex: -1,
@@ -138,16 +134,9 @@ export default {
     this.initialize();
   },
   methods: {
-    // initialize() {
-    //   api.getUsers()
-    //   .then(response => {
-    //     console.log(response.data);
-    //     this.items = response.data;
-    //   })
-    //       .catch(error => {
-    //         this.errors.push(error);
-    //       });
-    // },
+    initialize() {
+      console.log(listAllUsers());
+    },
     editItem(item) {
       this.editedIndex = this.items.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -180,20 +169,20 @@ export default {
     userRegistration() {
       console.log("in register");
       firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.editedItem.email, this.editedItem.password)
-      .then((res) => {
-        res.user
-          .updateProfile({
-            displayName: this.user.name
-          })
-          .then(() => {
-            this.$router.push('/login')
-          });
-      })
-      .catch((error) => {
-         alert(error.message);
-      });
+        .auth()
+        .createUserWithEmailAndPassword(this.editedItem.email, this.editedItem.password)
+        .then((res) => {
+          res.user
+            .updateProfile({
+              displayName: this.user.name
+            })
+            .then(() => {
+              this.$router.push('/home')
+            });
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
     },
 
     save() {
