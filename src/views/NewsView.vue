@@ -3,7 +3,7 @@
     <v-card class="d-flex flex-row-reverse" flat color="transparent">
       <v-breadcrumbs :items="breadcrumbs" divider=">"></v-breadcrumbs>
     </v-card>
-    <v-card>
+    <v-card v-if="$store.state.role === 'Administrator' || $store.state.role === 'Journalist'">
       <v-container>
         <h1>This is an News page</h1>
         <v-btn class="mx-2" fab dark color="indigo" @click.stop="add_dialog = true">
