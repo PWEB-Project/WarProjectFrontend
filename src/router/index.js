@@ -12,16 +12,24 @@ import NecessityGoodsAddView from '../views/NecessityGoodsAddView'
 import NewsAddView from '../views/NewsAddView'
 import ArticleAddView from '../views/ArticleAddView'
 import ReviewAddView from '../views/ReviewAddView'
-// import HomeView from '../views/HomeView.vue'
+import LoginView from '../views/LoginView'
+import firebase from 'firebase/compat/app'
+import HomeView from '../views/HomeView.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: HomeView
-  // },
+  {
+    path: '/home',
+    name: 'home',
+    component: HomeView
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  },
   {
     path: '/user-profile',
     name: 'user-profile',
@@ -97,5 +105,39 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+
+  if (localStorage.getItem("role") === "Administrator" || localStorage.getItem("role") === "Journalist") {
+    if (firebase.auth().currentUser) {
+      next();
+    } else {
+      console.log(localStorage.getItem("role"));
+      alert('You must be logged in to see this page');
+      store.dispatch('add_role', "Anon");
+      console.log(localStorage.getItem("role"));
+      next({
+        path: '/home',
+      });
+    }
+  } else {
+    if (localStorage.getItem("role") === null) {
+      firebase.auth().signInAnonymously()
+        .then(function () {
+          console.log('Logged in as Anonymous!')
+          store.dispatch('add_role', "Anon");
+          console.log(localStorage.getItem("role"));
+        }).catch(function (error) {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          console.log(errorCode);
+          console.log(errorMessage);
+        });
+      next();
+    } else {
+      next();
+    }
+  }
+});
 
 export default router

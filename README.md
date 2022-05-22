@@ -33,3 +33,4 @@ vue add vuex
 
 npm install firebase
 
+npm i firebase vue-router vuex

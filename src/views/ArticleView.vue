@@ -6,28 +6,35 @@
     <v-card>
       <v-container>
         <h1>This is an Article page</h1>
-        <v-btn link to="/add-article" class="mx-2" fab dark color="indigo">
+        <v-dialog
+                      v-model="dialog_article"
+                      width="500"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+        <v-btn class="mx-2" fab dark color="indigo" v-bind="attrs" v-on="on">
           <v-icon dark>
             mdi-plus
           </v-icon>
         </v-btn>
+        </template>
+        <ArticleAddView/>
+        </v-dialog>
       </v-container>
     </v-card>
     <v-main>
       <v-container>
         <v-row>
-          <v-col v-for="n in 24" :key="n" cols="4">
-            <v-card class="mx-auto" color="#26c6da" dark>
+          <v-col v-for="n in news" :key="n.id" cols="4">
+            <v-card class="mx-auto" >
               <v-card-title>
                 <v-icon large left>
-                  mdi-twitter
+                  mdi-news
                 </v-icon>
-                <span class="text-h6 font-weight-light">Twitter</span>
+                <span class="text-h6 font-weight-light">{{n.title}}</span>
               </v-card-title>
 
               <v-card-text class="text-h5 font-weight-bold">
-                "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type
-                invalid as well."
+                {{n.body}}
               </v-card-text>
 
               <v-card-actions>
@@ -39,19 +46,51 @@
                   </v-list-item-avatar>
 
                   <v-list-item-content>
-                    <v-list-item-title>Evan You</v-list-item-title>
+                    <v-list-item-title>{{n.writer}}</v-list-item-title>
+                  </v-list-item-content>
+
+                  <v-list-item-content>
+                    <v-list-item-title>{{n.publicationDate}}</v-list-item-title>
                   </v-list-item-content>
 
                   <v-row align="center" justify="end">
-                    <v-icon class="mr-1">
-                      mdi-heart
+                    <v-dialog
+                      v-model="dialog"
+                      width="500"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                    <v-icon class="mr-1" v-bind="attrs" v-on="on">
+                      mdi-monitor-eye
                     </v-icon>
-                    <span class="subheading mr-2">256</span>
-                    <span class="mr-1">·</span>
-                    <v-icon class="mr-1">
-                      mdi-share-variant
+                    </template>
+                    <ReviewAddView/>
+                    </v-dialog>
+                    <span class="subheading mr-2"></span>
+                    <span class="mr-1"></span>
+                    <v-dialog
+                      v-model="dialog_review"
+                      width="500"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                    <v-icon class="mr-1" v-bind="attrs" v-on="on" @click="getNewsReviews(n.id)">
+                      mdi-message-draw
                     </v-icon>
-                    <span class="subheading">45</span>
+                    </template>
+                    <v-card>
+                    <v-container>
+                      <v-row>
+                        <v-col v-for="r in reviews" :key="r.id" cols="9">
+                          <v-card class="mx-auto" >
+                          <v-card-text class="text-h5 font-weight-bold">
+                            {{r.content}}
+                          </v-card-text>
+                        </v-card>
+                        </v-col>
+                        </v-row>
+                    </v-container>
+                    </v-card>
+                    </v-dialog>
+                    <span class="subheading"></span>
                   </v-row>
                 </v-list-item>
               </v-card-actions>
@@ -64,8 +103,23 @@
 </template>
 
 <script>
+import api from "../components/backend_api";
+import ReviewAddView from "./ReviewAddView.vue";
+import ArticleAddView from "./ArticleAddView.vue";
 export default {
+  components: {
+    ReviewAddView,
+    ArticleAddView
+},
+    mounted() {
+      this.initialize();
+  },
   data: () => ({
+    dialog_article: false,
+    dialog_review: false,
+      dialog: false,
+      reviews: [],
+      news: [],
     breadcrumbs: [
       {
         text: 'Dashboard',
@@ -79,5 +133,29 @@ export default {
       },
     ],
   }),
+  methods: {
+      initialize() {
+      api
+        .getArticles()
+        .then(response => {
+          console.log(response.data);
+          this.news = response.data;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
+    },
+    getNewsReviews(id) {
+      api
+        .getReviews(id)
+        .then(response => {
+          console.log(response.data);
+          this.reviews = response.data;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
+    }
+  }
 }
 </script>
