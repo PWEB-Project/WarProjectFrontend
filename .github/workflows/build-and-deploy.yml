@@ -33,7 +33,6 @@ jobs:
 
     - run: npm ci
     - run: npm run build
-    - run: npm test --if-present
 
     - name: Setup gcloud
       uses: google-github-actions/setup-gcloud@v0.6.0
