@@ -9,40 +9,6 @@ const AXIOS = axios.create({
 });
 
 
-// AXIOS.interceptors.response.use(
-//   function(response) {
-//     if (response.headers["authorization"] != null) {
-//       localStorage.setItem("access_token", response.headers["authorization"]);
-//     }
-
-//     if (response.data !== null && response.data.errorType != null) {
-//       // store.state.errorDialog = true; TODO in state
-//       // store.state.errorModel = response.data;
-//     }
-
-//     return response;
-//   },
-//   function(error) {
-//     if (error.response.status === 403) {
-//       //store.state.errorDialog = true; TODO in state
-//       //store.state.errorModel = {errorType: "Access denied", message: "You have no permission on this action"};
-//     }
-//     return Promise.reject(error);
-//   }
-// );
-
-// AXIOS.interceptors.request.use(
-//   function(request) {
-//     if (!request.url.includes("login")) {
-//       request.headers["authorization"] = localStorage.getItem("access_token");
-//     } else delete request.headers["authorization"];
-
-//     return request;
-//   },
-//   function(error) {
-//     return Promise.reject(error);
-//   }
-// );
 
 export default {
   getCountries(){
