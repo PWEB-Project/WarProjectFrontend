@@ -6,11 +6,12 @@
     <v-card>
       <v-container>
         <h1>This is an Bunker page</h1>
-        <v-btn link to="/add-bunker" class="mx-2" fab dark color="indigo">
+        <v-btn class="mx-2" fab dark color="indigo"  @click.stop="dialog = true">
           <v-icon dark>
             mdi-plus
           </v-icon>
         </v-btn>
+        <BunkerAddView v-model="dialog" />
       </v-container>
     </v-card>
     <v-card>
@@ -26,8 +27,23 @@
 
 <script>
 import api from "../components/backend_api";
+import BunkerAddView from "./BunkerAddView.vue";
 export default {
+  components: {
+    BunkerAddView
+  },
+  watch: {
+    dialog: {
+      handler(newValue, oldValue) {
+        if(newValue === false && oldValue === true){
+          this.initialize();
+        }
+      },
+      deep: true
+    }
+  },
   data: () => ({
+    dialog: false,
     breadcrumbs: [
       {
         text: 'Dashboard',

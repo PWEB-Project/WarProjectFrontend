@@ -6,19 +6,13 @@
     <v-card>
       <v-container>
         <h1>This is an Article page</h1>
-        <v-dialog
-                      v-model="dialog_article"
-                      width="500"
-                    >
-                    <template v-slot:activator="{ on, attrs }">
-        <v-btn class="mx-2" fab dark color="indigo" v-bind="attrs" v-on="on">
+        
+        <v-btn class="mx-2" fab dark color="indigo"  @click.stop="add_dialog=true">
           <v-icon dark>
             mdi-plus
           </v-icon>
         </v-btn>
-        </template>
-        <ArticleAddView/>
-        </v-dialog>
+        <AddNewsArticles v-model="add_dialog" :newsType="AddNews"/>
       </v-container>
     </v-card>
     <v-main>
@@ -105,16 +99,18 @@
 <script>
 import api from "../components/backend_api";
 import ReviewAddView from "./ReviewAddView.vue";
-import ArticleAddView from "./ArticleAddView.vue";
+import AddNewsArticles from "@/components/AddNewsArticles.vue";
 export default {
   components: {
     ReviewAddView,
-    ArticleAddView
+    AddNewsArticles
 },
     mounted() {
       this.initialize();
   },
   data: () => ({
+    AddNews: "Add Articles",
+    add_dialog: false,
     dialog_article: false,
     dialog_review: false,
       dialog: false,
@@ -133,6 +129,16 @@ export default {
       },
     ],
   }),
+  watch: {
+    add_dialog: {
+      handler(newValue, oldValue) {
+        if(newValue === false && oldValue === true){
+          this.initialize();
+        }
+      },
+      deep: true
+    }
+  },
   methods: {
       initialize() {
       api

@@ -1,42 +1,33 @@
 <template>
   <div class="bunker">
     <v-card class="d-flex flex-row-reverse" flat color="transparent">
-      <v-breadcrumbs
-        :items="breadcrumbs"
-        divider=">"
-      ></v-breadcrumbs>
+      <v-breadcrumbs :items="breadcrumbs" divider=">"></v-breadcrumbs>
     </v-card>
     <v-card>
       <v-container>
         <h1>This is an News page</h1>
-        <v-btn
-          class="mx-2"
-          fab
-          dark
-          color="indigo"
-          @click.stop="add_dialog=true"
-        >
+        <v-btn class="mx-2" fab dark color="indigo" @click.stop="add_dialog = true">
           <v-icon dark>
             mdi-plus
           </v-icon>
         </v-btn>
-        <AddNewsArticles v-model="add_dialog"/>
+        <AddNewsArticles v-model="add_dialog" :newsType="AddNews" />
       </v-container>
     </v-card>
     <v-main>
       <v-container>
         <v-row>
           <v-col v-for="n in news" :key="n.id" cols="4">
-            <v-card class="mx-auto" >
+            <v-card class="mx-auto">
               <v-card-title>
                 <v-icon large left>
                   mdi-news
                 </v-icon>
-                <span class="text-h6 font-weight-light">{{n.title}}</span>
+                <span class="text-h6 font-weight-light">{{ n.title }}</span>
               </v-card-title>
 
               <v-card-text class="text-h5 font-weight-bold">
-                {{n.body}}
+                {{ n.body }}
               </v-card-text>
 
               <v-card-actions>
@@ -48,49 +39,43 @@
                   </v-list-item-avatar>
 
                   <v-list-item-content>
-                    <v-list-item-title>{{n.writer}}</v-list-item-title>
+                    <v-list-item-title>{{ n.writer }}</v-list-item-title>
                   </v-list-item-content>
 
                   <v-list-item-content>
-                    <v-list-item-title>{{n.publicationDate}}</v-list-item-title>
+                    <v-list-item-title>{{ n.publicationDate }}</v-list-item-title>
                   </v-list-item-content>
 
                   <v-row align="center" justify="end">
-                    <v-dialog
-                      v-model="dialog"
-                      width="500"
-                    >
-                    <template v-slot:activator="{ on, attrs }">
-                    <v-icon class="mr-1" v-bind="attrs" v-on="on">
-                      mdi-monitor-eye
-                    </v-icon>
-                    </template>
-                    <ReviewAddView/>
+                    <v-dialog v-model="dialog" width="500">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-icon class="mr-1" v-bind="attrs" v-on="on">
+                          mdi-monitor-eye
+                        </v-icon>
+                      </template>
+                      <ReviewAddView />
                     </v-dialog>
                     <span class="subheading mr-2"></span>
                     <span class="mr-1"></span>
-                    <v-dialog
-                      v-model="dialog_review"
-                      width="500"
-                    >
-                    <template v-slot:activator="{ on, attrs }">
-                    <v-icon class="mr-1" v-bind="attrs" v-on="on" @click="getNewsReviews(n.id)">
-                      mdi-message-draw
-                    </v-icon>
-                    </template>
-                    <v-card>
-                    <v-container>
-                      <v-row>
-                        <v-col v-for="r in reviews" :key="r.id" cols="9">
-                          <v-card class="mx-auto" >
-                          <v-card-text class="text-h5 font-weight-bold">
-                            {{r.content}}
-                          </v-card-text>
-                        </v-card>
-                        </v-col>
-                        </v-row>
-                    </v-container>
-                    </v-card>
+                    <v-dialog v-model="dialog_review" width="500">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-icon class="mr-1" v-bind="attrs" v-on="on" @click="getNewsReviews(n.id)">
+                          mdi-message-draw
+                        </v-icon>
+                      </template>
+                      <v-card>
+                        <v-container>
+                          <v-row>
+                            <v-col v-for="r in reviews" :key="r.id" cols="9">
+                              <v-card class="mx-auto">
+                                <v-card-text class="text-h5 font-weight-bold">
+                                  {{ r.content }}
+                                </v-card-text>
+                              </v-card>
+                            </v-col>
+                          </v-row>
+                        </v-container>
+                      </v-card>
                     </v-dialog>
                     <span class="subheading"></span>
                   </v-row>
@@ -109,35 +94,49 @@ import api from "../components/backend_api";
 import ReviewAddView from "./ReviewAddView.vue";
 import AddNewsArticles from "@/components/AddNewsArticles.vue";
 // import ArticleAddView from "./ArticleAddView.vue";
-  export default {
-    components: {
+export default {
+  components: {
     ReviewAddView,
     AddNewsArticles
-},
-    mounted() {
-      this.initialize();
   },
-    data: () => ({
-      add_dialog: false,
-      dialog_review: false,
-      dialog: false,
-      reviews: [],
-      news: [],
-      breadcrumbs: [
-        {
-          text: 'Dashboard',
-          disabled: false,
-          href: '/about',
-        },
-        {
-          text: 'News',
-          disabled: false,
-          href: '/news',
-        },
-      ],
-    }),
-    methods: {
-      initialize() {
+  mounted() {
+    this.initialize();
+  },
+  watch: {
+    add_dialog: {
+      handler(newValue, oldValue) {
+        if(newValue === false && oldValue === true){
+          this.initialize();
+        }
+      },
+      deep: true
+    }
+  },
+  data: () => ({
+    AddNews: "Add News",
+    add_dialog: false,
+    dialog_review: false,
+    dialog: false,
+    reviews: [],
+    news: [],
+    breadcrumbs: [
+      {
+        text: 'Dashboard',
+        disabled: false,
+        href: '/about',
+      },
+      {
+        text: 'News',
+        disabled: false,
+        href: '/news',
+      },
+    ],
+  }),
+  methods: {
+    reloadPage() {
+      window.location.reload()
+    },
+    initialize() {
       api
         .getNews()
         .then(response => {
@@ -159,6 +158,6 @@ import AddNewsArticles from "@/components/AddNewsArticles.vue";
           this.errors.push(error);
         });
     }
-    }
   }
+}
 </script>

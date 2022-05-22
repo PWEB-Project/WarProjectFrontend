@@ -9,7 +9,8 @@
     <v-card>
       <v-container>
         <h1>This is an Necessity Goods page</h1>
-        <v-btn link to="/add-necessity-goods"
+        <v-btn 
+        @click.stop="dialog = true"
           class="mx-2"
           fab
           dark
@@ -19,6 +20,7 @@
             mdi-plus
           </v-icon>
         </v-btn>
+        <NecessityGoodsAddView v-model="dialog" />
       </v-container>
     </v-card>
     
@@ -46,10 +48,24 @@
 
 <script>
 import api from "../components/backend_api";
+import NecessityGoodsAddView from "./NecessityGoodsAddView.vue";
   export default {
+    components: {
+    NecessityGoodsAddView
+},
     created() {
         this.initialize();
     },
+     watch: {
+    dialog: {
+      handler(newValue, oldValue) {
+        if(newValue === false && oldValue === true){
+          this.initialize();
+        }
+      },
+      deep: true
+    }
+  },
     methods: {
         initialize() {
             api
@@ -65,6 +81,7 @@ import api from "../components/backend_api";
         }
     },
     data: () => ({
+      dialog: false,
       breadcrumbs: [
         {
           text: 'Dashboard',
@@ -87,7 +104,8 @@ import api from "../components/backend_api";
             },
             { text: 'Maxim Capacity', value: 'maximCapacity' },
             { text: 'Current Capacity', value: 'currentCapacity' },
-            { text: 'Last Update', value: 'lastUpdate' }
+            { text: 'Last Update', value: 'lastUpdate' },
+            { text: 'Goods Type', value: 'goodsType.goodTypeName' }
         ],
         goods: [],
     }),

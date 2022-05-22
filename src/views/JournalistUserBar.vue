@@ -1,6 +1,12 @@
 <template>
   <v-app>
-    <v-navigation-drawer permanent expand-on-hover>
+    <v-navigation-drawer permanent expand-on-hover dense color="#f1eef2">
+      <v-list>
+        <v-list-item link to="/home">
+          <v-img src="../assets/Logo (1).png"></v-img>
+        </v-list-item>
+      </v-list>
+
       <v-divider></v-divider>
 
       <v-list nav dense>

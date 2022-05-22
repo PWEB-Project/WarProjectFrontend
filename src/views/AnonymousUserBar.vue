@@ -1,26 +1,12 @@
 <template>
   <!-- <v-app> -->
-  <v-navigation-drawer permanent expand-on-hover dark dense>
+  <v-navigation-drawer permanent expand-on-hover dense color="#f1eef2">
     <v-list>
-      <v-list> </v-list>
+        <v-list-item link to="/home">
+              <v-img src="../assets/Logo (1).png"></v-img>
+          </v-list-item>
     </v-list>
-    <!-- <v-list> -->
-    <!-- <v-list-item class="px-2"> -->
-    <!-- <v-list-item-avatar> -->
-    <!-- <v-img src="https://www.kindpng.com/picc/m/562-5621554_frase-stay-strong-hd-png-download.png"></v-img> -->
-    <!-- </v-list-item-avatar> -->
-    <!-- </v-list-item> -->
-    <!-- 
-          <v-list-item link>
-            <v-list-item-content>
-              <v-list-item-title class="text-h6">
-                Sandra Adams
-              </v-list-item-title>
-              <v-list-item-subtitle>sandra_a88@gmail.com</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item> -->
-    <!-- </v-list> -->
-
+    
     <v-divider></v-divider>
 
     <v-list nav dense>
@@ -36,17 +22,16 @@
         </v-list-item-icon>
         <v-list-item-title>Articles</v-list-item-title>
       </v-list-item>
-      <v-dialog v-model="dialog_subscribe" persistent max-width="600px" >
-          <template v-slot:activator="{ on, attrs }">
-            <v-list-item v-on="on" v-bind="attrs">
+    
+            <v-list-item @click.stop="dialog_subscribe = true">
         <v-list-item-icon>
           <v-icon>mdi-send-circle-outline</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Subscribe</v-list-item-title>
       </v-list-item>
-      </template>
-      <SubscribeAddView/>
-      </v-dialog>
+      
+      <SubscribeAddView v-model="dialog_subscribe"/>
+      
       <v-dialog v-model="dialogLocation" persistent max-width="600px" >
           <template v-slot:activator="{ on, attrs }">
             <v-list-item v-on="on" v-bind="attrs">
@@ -152,6 +137,16 @@
                     @click="validate"
                   >
                     Login
+                  </v-btn>
+                  </v-col>
+                  <v-spacer></v-spacer>
+                  <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
+                  <v-btn
+                    x-large
+                    block
+                    @click="dialog=false"
+                  >
+                    Cancel
                   </v-btn>
                 </v-col>
               </v-row>
@@ -288,7 +283,7 @@ export default {
   /* Stay on top */
   top: 0;
   left: 0;
-  background-color: #bd711b;
+  background-color: rgba(61, 41, 115, 0.05);
   /*#bd711b;*/
   overflow-x: hidden;
   /* Disable horizontal scroll */
