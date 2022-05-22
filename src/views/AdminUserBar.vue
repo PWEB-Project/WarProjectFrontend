@@ -135,10 +135,16 @@ export default {
     cities: [],
     valueCity: ""
   }),
-  // created() {
-  //   this.initialize();
-  // },
+  mounted() {
+    if(localStorage.getItem("city") == "null"){
+      this.open_dialog();
+      this.initialize();
+    }
+  },
   methods: {
+    open_dialog(){
+      this.dialog = true;
+    },
     logout() {
       firebase.auth()
         .signOut()
@@ -148,6 +154,7 @@ export default {
             firebase.auth().signInAnonymously()
             .then(() => {
               this.$store.dispatch('add_role', "Anon");
+              this.$store.dispatch('delete_city');
               this.$router.push('/news');
               
             })
@@ -172,16 +179,6 @@ export default {
       this.dialog = false;
     },
     save() {
-      // var new_name =
-      //   this.editedItem.first_name + " " + this.editedItem.last_name;
-      // if (this.editedIndex > -1) {
-      //   Object.assign(this.items[this.editedIndex], {
-      //     ...this.editedItem,
-      //     ...{ name: new_name }
-      //   });
-      // } else {
-      //   this.items.push({ ...this.editedItem, ...{ name: new_name } });
-      // }
       this.$store.dispatch('add_city', this.valueCity);
       console.log(localStorage.getItem("city"));
       this.close();

@@ -10,9 +10,18 @@ import store from './store'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.component("downloadExcel", JsonExcel);
 Vue.component("vue-json-to-csv", VueJsonToCsv);
 Vue.use(Vuelidate);
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyA4D5R8vhfiv7Cle8bnk4cvi2gCboK8OIM',
+    libraries: 'geometry,places'
+  }
+});
+
 const firebaseConfig = {
   apiKey: "AIzaSyBGOcGtYOw7Q8lYZ1J3y8Ypq7edvseJemk",
   authDomain: "warproject-9900f.firebaseapp.com",

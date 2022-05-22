@@ -28,6 +28,14 @@ export default new Vuex.Store({
     add_role({commit}, role){
       this.state.role = role;
       commit("update_role", role);
+    },
+    delete_role({commit}){
+      this.state.role = null;
+      commit("update_role", null);
+    },
+    delete_city({commit}){
+      this.state.city = null;
+      commit("update_city", null);
     }
   },
   modules: {

@@ -14,17 +14,17 @@ import ArticleAddView from '../views/ArticleAddView'
 import ReviewAddView from '../views/ReviewAddView'
 import LoginView from '../views/LoginView'
 import firebase from 'firebase/compat/app'
-// import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/HomeView.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: HomeView
-  // },
+  {
+    path: '/home',
+    name: 'home',
+    component: HomeView
+  },
   {
     path: '/login',
     name: 'login',
@@ -117,7 +117,7 @@ router.beforeEach((to, from, next) => {
       store.dispatch('add_role', "Anon");
       console.log(localStorage.getItem("role"));
       next({
-        path: '/news',
+        path: '/home',
       });
     }
   } else {
